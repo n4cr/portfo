@@ -2,15 +2,16 @@ import React from 'react'
 import { push } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import '../App.css'
 import {
   increment,
   incrementAsync,
   decrement,
   decrementAsync
-} from './modules/counter'
+} from '../modules/counter'
 
 const Home = props => (
-    <div>
+    <div className="App">
       <h1>Home</h1>
       <p>Count: {props.count}</p>
 

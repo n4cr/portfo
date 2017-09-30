@@ -9,11 +9,6 @@ window.axios = require('axios')
 
 class App extends Component {
 
-  signin() {
-    const blockstack = window.blockstack
-    blockstack.redirectToSignIn()
-  }
-
   signOut() {
 
     window.blockstack.signUserOut(window.location.href)

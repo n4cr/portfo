@@ -3,15 +3,15 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,500,600,700");
 
-//$font-family-sans-serif: 'Source Code Pro',monospace;
 @import "./assets/variables";
-//$brand-danger: blue;
+
+$font-family-monospace: 'Source Code Pro',monospace !default;
+$font-family-base: $font-family-monospace !default;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .App {
-  text-align: center;
-  background-color: red;
+  font-family: $font-family-base;
 }
 
 .App-logo {

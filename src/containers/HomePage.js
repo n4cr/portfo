@@ -9,7 +9,7 @@ export default class HomePage extends React.Component {
   render() {
     return (
         <Container>
-          <Row>
+          <Row className="mt-5 mb-5">
             <Col xs="6" sm="4">
               <h3>3000 € <br/>
                 <small className="text-muted">Holdings</small>

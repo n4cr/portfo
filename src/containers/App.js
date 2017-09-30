@@ -1,11 +1,24 @@
 import React from 'react';
 import {Route, Link} from 'react-router-dom';
 import About from './about';
-// import 'bootstrap/dist/css/bootstrap.css';
 import '../App.css';
-import Example from '../components/Tabs';
 import HomepPage from './HomePage';
-import {Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, Container} from 'reactstrap';
+import CoinPage from './CoinPage';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  Container,
+  Button
+} from 'reactstrap';
+import {signinSuccess, signout} from '../modules/account'
+import {push} from 'react-router-redux'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+
 
 window.blockstack = require('blockstack')
 window.blockstackStorage = require('blockstack-storage')
@@ -23,11 +36,59 @@ class App extends React.Component {
 
   }
 
+  componentDidMount() {
+    let user;
+    const blockstack = window.blockstack
 
+    if (blockstack.isUserSignedIn()) {
+      user = blockstack.loadUserData().profile
+      this.props.signinSuccess(user)
+      console.log(user);
+    } else if (blockstack.isSignInPending()) {
+      blockstack.handlePendingSignIn()
+          .then((userData) => {
+            console.log(userData)
+            window.location = window.location.origin
+
+            // Store userData in Redux
+          })
+    }
+  }
+
+  signin() {
+    const blockstack = window.blockstack
+    blockstack.redirectToSignIn()
+  }
+
+  signout() {
+    // this.props.signout()
+    window.blockstack.signUserOut(window.location.href)
+  }
 
   render() {
+    const signInButton = (
+        <Button onClick={() => {
+          this.signin()
+        }}>SignIn</Button>
+    )
+
+    const routes = (
+        <main>
+          <Route exact path="/" component={HomepPage}/>
+          <Route path="/coin/:coin" component={CoinPage}/>
+          <Route exact path="/about-us" component={About}/>
+        </main>
+    )
+    const user = this.props.user
+
+    const signoutButton = user ?  (
+        <NavItem>
+          <Button onClick={() => this.props.signout()}>Signout</Button>
+        </NavItem>
+    ): null;
+    const content = user === null ? signInButton : routes;
     return (
-        <div>
+        <div className="App">
           <Navbar color="faded" light toggleable>
             <Container>
               <NavbarToggler right onClick={this.toggle}/>
@@ -40,6 +101,7 @@ class App extends React.Component {
                   <NavItem>
                     <Link to="/about-us">About</Link>
                   </NavItem>
+                  {signoutButton}
                 </Nav>
               </Collapse>
             </Container>
@@ -53,13 +115,24 @@ class App extends React.Component {
 
           {/*</header>*/}
 
-          <main>
-            <Route exact path="/" component={HomepPage}/>
-            <Route exact path="/about-us" component={About}/>
-          </main>
+          {content}
         </div>
     )
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  user: state.account.user,
+  signedIn: state.account.signedIn,
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  changePage: () => push('/about-us'),
+  signinSuccess,
+  signout
+}, dispatch)
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App)

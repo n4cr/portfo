@@ -14,7 +14,8 @@ import {
   Container,
   Button
 } from 'reactstrap';
-import {signinSuccess, signout} from '../modules/account'
+import {signinSuccess, signout, loadHoldings, updateHoldings} from '../modules/account'
+
 import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -23,8 +24,6 @@ import {connect} from 'react-redux'
 window.blockstack = require('blockstack')
 window.blockstackStorage = require('blockstack-storage')
 window.axios = require('axios')
-
-const STORAGE_FILE = 'todos.json';
 
 class App extends React.Component {
 
@@ -38,17 +37,17 @@ class App extends React.Component {
 
   componentDidMount() {
     let user;
-    const blockstack = window.blockstack
+    const blockstack = window.blockstack;
 
     if (blockstack.isUserSignedIn()) {
-      user = blockstack.loadUserData().profile
-      this.props.signinSuccess(user)
-      console.log(user);
+      user = blockstack.loadUserData().profile;
+      this.props.signinSuccess(user);
+      this.props.loadHoldings();
     } else if (blockstack.isSignInPending()) {
       blockstack.handlePendingSignIn()
           .then((userData) => {
-            console.log(userData)
-            window.location = window.location.origin
+            console.log(userData);
+            window.location = window.location.origin;
 
             // Store userData in Redux
           })
@@ -60,16 +59,14 @@ class App extends React.Component {
     blockstack.redirectToSignIn()
   }
 
-  signout() {
-    // this.props.signout()
-    window.blockstack.signUserOut(window.location.href)
-  }
-
   render() {
+
     const signInButton = (
-        <Button onClick={() => {
-          this.signin()
-        }}>SignIn</Button>
+        <Container>
+          <Button onClick={() => {
+            this.signin()
+          }}>SignIn</Button>
+        </Container>
     )
 
     const routes = (
@@ -81,11 +78,12 @@ class App extends React.Component {
     )
     const user = this.props.user
 
-    const signoutButton = user ?  (
-        <NavItem>
-          <Button onClick={() => this.props.signout()}>Signout</Button>
-        </NavItem>
-    ): null;
+    const signoutButton = user ? (
+            <NavItem>
+              <Button onClick={() => this.props.signout()}>Signout</Button>
+              <Button onClick={() => this.props.updateHoldings()}>Update</Button>
+            </NavItem>
+        ) : null;
     const content = user === null ? signInButton : routes;
     return (
         <div className="App">
@@ -107,14 +105,6 @@ class App extends React.Component {
             </Container>
 
           </Navbar>
-
-          {/*<header>*/}
-
-          {/*<button className="btn btn-primary">This button</button>*/}
-
-
-          {/*</header>*/}
-
           {content}
         </div>
     )
@@ -129,6 +119,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   changePage: () => push('/about-us'),
   signinSuccess,
+  loadHoldings,
+  updateHoldings,
   signout
 }, dispatch)
 

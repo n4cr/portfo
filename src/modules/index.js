@@ -6,5 +6,5 @@ import account from './account'
 export default combineReducers({
   routing: routerReducer,
   counter,
-  account
+  account,
 })

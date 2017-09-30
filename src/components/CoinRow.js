@@ -3,8 +3,6 @@
  */
 
 import React from 'react';
-import {Route, Link} from 'react-router-dom';
-import {Table} from 'reactstrap';
 
 export default class CoinRow extends React.Component {
  render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Link} from 'react-router-dom';
+import {Route, Link, withRouter} from 'react-router-dom';
 import About from './about';
 import '../App.css';
 import HomepPage from './HomePage';
@@ -124,7 +124,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   signout
 }, dispatch)
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(App)
+)(App))

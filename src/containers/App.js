@@ -15,6 +15,7 @@ import {
   Button
 } from 'reactstrap';
 import {signinSuccess, signout, loadHoldings, updateHoldings} from '../modules/account'
+import {loadCoins} from '../modules/coin'
 
 import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
@@ -52,6 +53,8 @@ class App extends React.Component {
             // Store userData in Redux
           })
     }
+
+    this.props.loadCoins();
   }
 
   signin() {
@@ -117,11 +120,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  changePage: () => push('/about-us'),
   signinSuccess,
   loadHoldings,
   updateHoldings,
-  signout
+  signout,
+  loadCoins,
 }, dispatch)
 
 export default withRouter(connect(

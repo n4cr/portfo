@@ -16,16 +16,6 @@ import classnames from 'classnames';
 import CoinList from './CoinList'
 
 export default class Tabs extends React.Component {
-  signin() {
-    const blockstack = window.blockstack
-    blockstack.redirectToSignIn()
-  }
-
-  signOut() {
-
-    window.blockstack.signUserOut(window.location.href)
-  }
-
   constructor(props) {
     super(props);
 
@@ -33,20 +23,6 @@ export default class Tabs extends React.Component {
     this.state = {
       activeTab: '1'
     };
-
-    let user;
-    const blockstack = window.blockstack
-
-    if (blockstack.isUserSignedIn()) {
-      user = blockstack.loadUserData().profile
-      console.log(user);
-    } else if (blockstack.isSignInPending()) {
-      blockstack.handlePendingSignIn()
-          .then((userData) => {
-            console.log(userData)
-            window.location = window.location.origin
-          })
-    }
   }
 
   toggle(tab) {
@@ -98,15 +74,7 @@ export default class Tabs extends React.Component {
             <TabPane tabId="1">
               <Row>
                 <Col sm="12">
-                  <CoinList />
-                  {/*<p>*/}
-                    {/*<Button color="success" onClick={() => this.save()}>Content</Button>*/}
-                    {/*<button className="btn btn-default" onClick={() => this.signin()}>Sign In With*/}
-                      {/*Blockstack*/}
-                    {/*</button>*/}
-                    {/*<button className="btn btn-default" onClick={() => this.signOut()}>Signout*/}
-                    {/*</button>*/}
-                  {/*</p>*/}
+                  <CoinList list={this.props.list}/>
                 </Col>
               </Row>
             </TabPane>

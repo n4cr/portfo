@@ -3,18 +3,21 @@
  */
 
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 export default class CoinRow extends React.Component {
- render() {
-   return(
-       <tr >
-         <td><h4><img width="40"
-                      src="https://cdn.iconscout.com/public/images/icon/free/png-128/bitcoin-logo-online-payment-brand-3978d8ba010efbbd-128x128.png"/>
-           BTC</h4></td>
-         <td>3000 €</td>
-         <td>2.121213</td>
-         <td>+22</td>
-       </tr>
-   )
- }
+  render() {
+    const coin = this.props.coin;
+    const icon = (
+        <img src={`https://files.coinmarketcap.com/static/img/coins/32x32/${coin.id}.png`}/>)
+    return (
+        <tr >
+          <td>{icon}</td>
+          <td><Link to={`/coin/${coin.symbol}`}><h4>{coin.symbol}</h4></Link></td>
+          <td>{coin.price_usd}</td>
+          <td>{coin.market_cap_usd}</td>
+          <td>{coin.percent_change_24h}</td>
+        </tr>
+    )
+  }
 }

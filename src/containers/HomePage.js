@@ -2,8 +2,10 @@ import React from 'react';
 import './Holding.css';
 import {Row,Col, Container, Button} from 'reactstrap';
 import Tabs from '../components/Tabs';
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 
-export default class HomePage extends React.Component {
+class HomePage extends React.Component {
   static PropTypes = {}
 
   render() {
@@ -15,13 +17,25 @@ export default class HomePage extends React.Component {
                 <small className="text-muted">Holdings</small>
               </h3>
             </Col>
-            <Col xs="6" sm="4">.col-6 .col-sm-4</Col>
-            <Col sm="4">.col .col-sm-4</Col>
+            <Col xs="6" sm="4"></Col>
+            <Col sm="4"></Col>
           </Row>
           <Row>
-            <Tabs/>
+            <Tabs list={this.props.list}/>
           </Row>
         </Container>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  list: state.coin.list,
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+}, dispatch)
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HomePage)

@@ -7,20 +7,22 @@ import CoinRow from './CoinRow'
 
 export default class CoinList extends React.Component {
   render() {
+    console.log(this.props.list);
+
+    const rows = this.props.list.map((row) => <CoinRow key={row.id} coin={row}/>)
     return (
-        <Table hover>
-          {/*<thead>*/}
-          {/*<tr>*/}
-            {/*<th></th>*/}
-            {/*<th>Price</th>*/}
-            {/*<th>Holdings</th>*/}
-            {/*<th>24hr Change</th>*/}
-          {/*</tr>*/}
-          {/*</thead>*/}
+        <Table>
+          <thead>
+          <tr>
+            <th></th>
+            <th>Coin</th>
+            <th>Price</th>
+            <th>Market Cap</th>
+            <th>24hr Change</th>
+          </tr>
+          </thead>
           <tbody>
-          <CoinRow/>
-          <CoinRow/>
-          <CoinRow/>
+          {rows}
           </tbody>
         </Table>
     );

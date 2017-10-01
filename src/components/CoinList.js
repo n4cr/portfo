@@ -9,7 +9,9 @@ export default class CoinList extends React.Component {
   render() {
     console.log(this.props.list);
 
-    const rows = this.props.list.map((row) => <CoinRow key={row.id} coin={row}/>)
+    const rows = this.props.list.map((row) => <CoinRow
+        currency={this.props.currency} key={row.id}
+        coin={row}/>);
     return (
         <Table>
           <thead>
@@ -18,7 +20,7 @@ export default class CoinList extends React.Component {
             <th>Coin</th>
             <th>Price</th>
             <th>Market Cap</th>
-            <th>24hr Change</th>
+            <th>24hr Change (%)</th>
           </tr>
           </thead>
           <tbody>

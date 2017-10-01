@@ -74,7 +74,7 @@ export default class Tabs extends React.Component {
             <TabPane tabId="1">
               <Row>
                 <Col sm="12">
-                  <CoinList list={this.props.list}/>
+                  <CoinList currency={this.props.currency} list={this.props.list}/>
                 </Col>
               </Row>
             </TabPane>

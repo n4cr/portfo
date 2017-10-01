@@ -15,7 +15,7 @@ import {
   Button
 } from 'reactstrap';
 import {signinSuccess, signout, loadHoldings, updateHoldings} from '../modules/account'
-import {loadCoins} from '../modules/coin'
+import {loadCoinList} from '../modules/coin'
 
 import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
@@ -54,7 +54,7 @@ class App extends React.Component {
           })
     }
 
-    this.props.loadCoins();
+    this.props.loadCoinList();
   }
 
   signin() {
@@ -66,7 +66,7 @@ class App extends React.Component {
 
     const signInButton = (
         <Container>
-          <Button onClick={() => {
+          <Button  onClick={() => {
             this.signin()
           }}>SignIn</Button>
         </Container>
@@ -83,8 +83,7 @@ class App extends React.Component {
 
     const signoutButton = user ? (
             <NavItem>
-              <Button onClick={() => this.props.signout()}>Signout</Button>
-              <Button onClick={() => this.props.updateHoldings()}>Update</Button>
+              <a href="#" onClick={() => this.props.signout()}>Logout</a>
             </NavItem>
         ) : null;
     const content = user === null ? signInButton : routes;
@@ -96,9 +95,6 @@ class App extends React.Component {
               <NavbarBrand href="/">Portfo</NavbarBrand>
               <Collapse isOpen={false} navbar>
                 <Nav className="ml-auto" navbar>
-                  <NavItem>
-                    <Link to="/">Home</Link>
-                  </NavItem>
                   <NavItem>
                     <Link to="/about-us">About</Link>
                   </NavItem>
@@ -124,7 +120,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   loadHoldings,
   updateHoldings,
   signout,
-  loadCoins,
+  loadCoinList,
 }, dispatch)
 
 export default withRouter(connect(

@@ -63,7 +63,7 @@ export const signout = () => {
 
 
 export const loadHoldings = () => {
-  return dispatch => {
+  return (dispatch, getState) => {
     const blockstack = window.blockstack;
     blockstack.getFile(STORAGE_FILE).then((holdings) => {
       const data = JSON.parse(holdings || '{}')
@@ -93,3 +93,13 @@ export const updateHoldings = (coin, amount) => {
     });
   }
 };
+
+
+export const holdingsList = (state) => {
+  // Return the list of coins which are holdings
+  const holdings = state.account.holdings || {};
+  return  state.coin.list.filter((coin) => !!holdings[coin.id]);
+}
+export const derived_holdings = (state) => {
+  // this method creates the
+}

@@ -1,16 +1,17 @@
 import React from 'react';
 import './Holding.css';
-import {Row,Col, Container, Button} from 'reactstrap';
+import {Row, Col, Container, Button} from 'reactstrap';
 import Tabs from '../components/Tabs';
 import CurrencySelector from '../components/CurrencySelector'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {changeCurrency, loadCoinList} from '../modules/coin'
+import {holdingsList} from '../modules/account'
 
 class HomePage extends React.Component {
   static PropTypes = {}
 
-  onCurrencyChange (currency) {
+  onCurrencyChange(currency) {
     this.props.changeCurrency(currency);
     this.props.loadCoinList(currency);
   }
@@ -25,11 +26,16 @@ class HomePage extends React.Component {
               </h3>
             </Col>
             <Col xs="4" sm="2">
-              <CurrencySelector currency={this.props.currency} onChange={this.onCurrencyChange.bind(this)}/>
+              <CurrencySelector currency={this.props.currency}
+                                onChange={this.onCurrencyChange.bind(this)}/>
             </Col>
           </Row>
           <Row>
-            <Tabs currency={this.props.currency} list={this.props.list}/>
+            <Tabs
+                currency={this.props.currency}
+                list={this.props.list}
+                holdingsList={this.props.holdingsList}
+            />
           </Row>
         </Container>
     )
@@ -38,6 +44,7 @@ class HomePage extends React.Component {
 
 const mapStateToProps = state => ({
   list: state.coin.list,
+  holdingsList: holdingsList(state),
   currency: state.coin.currency,
 })
 

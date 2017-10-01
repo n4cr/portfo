@@ -2,6 +2,8 @@
  * Created by nasir on 01/10/2017.
  */
 import React from 'react';
+import numeral from 'numeral'
+
 import {
   Row,
   Col,
@@ -54,6 +56,7 @@ export default class CoinHoldingBox extends React.Component {
 
   render() {
     const coin = this.props.coin;
+    const holdingValue = numeral(this.props.value) * numeral(this.coin);
     const editElem = (
         <div>
           <Form>

@@ -6,7 +6,7 @@ import CurrencySelector from '../components/CurrencySelector'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {changeCurrency, loadCoinList} from '../modules/coin'
-import {holdingsList} from '../modules/account'
+import {holdingsList, portfolioValue} from '../modules/account'
 
 class HomePage extends React.Component {
   static PropTypes = {}
@@ -21,7 +21,7 @@ class HomePage extends React.Component {
         <Container>
           <Row className="mt-5 mb-5">
             <Col xs="8" sm="10">
-              <h3>3000 € <br/>
+              <h3>{this.props.portfolioValue}<br/>
                 <small className="text-muted">Holdings</small>
               </h3>
             </Col>
@@ -45,6 +45,7 @@ class HomePage extends React.Component {
 const mapStateToProps = state => ({
   list: state.coin.list,
   holdingsList: holdingsList(state),
+  portfolioValue: portfolioValue(state),
   currency: state.coin.currency,
 })
 

@@ -2,6 +2,7 @@
  * Created by nasir on 30/09/2017.
  */
 
+import numeral from 'numeral';
 
 export const SIGNIN_SUCCESS = 'account/SIGNIN_SUCCESS';
 export const SIGNOUT = 'account/SIGNOUT';
@@ -98,8 +99,19 @@ export const updateHoldings = (coin, amount) => {
 export const holdingsList = (state) => {
   // Return the list of coins which are holdings
   const holdings = state.account.holdings || {};
-  return  state.coin.list.filter((coin) => !!holdings[coin.id]);
+  return state.coin.list.filter((coin) => !!holdings[coin.id] && numeral(holdings[coin.id]).value() > 0);
 }
+
+export const portfolioValue = (state) => {
+  const holdings = state.account.holdings;
+  const currency = state.coin.currency.toLowerCase();
+  const holdingCoins = holdingsList(state)
+
+  return holdingCoins.reduce((total, coin) => {
+    return total + numeral(holdings[coin.id]).value() * numeral(coin['price_' + currency]).value();
+  }, 0);
+};
+
 export const derived_holdings = (state) => {
   // this method creates the
 }

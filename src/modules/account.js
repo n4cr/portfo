@@ -71,22 +71,25 @@ export const loadHoldings = () => {
         type: LOAD_HOLDINGS,
         holdings: data
       })
-      console.log('holdings')
-      console.log(holdings)
     })
 
   }
 };
 
 
-export const updateHoldings = () => {
+export const updateHoldings = (coin, amount) => {
   return dispatch => {
     const blockstack = window.blockstack;
-    const data = { btc: 1.212 }
-    blockstack.putFile(STORAGE_FILE, JSON.stringify(data))
-    dispatch({
-      type: UPDATE_HOLDING,
-      holdings: data
-    })
+    // Load holdings, update and replace all of it with the new map
+    blockstack.getFile(STORAGE_FILE).then((holdings) => {
+      const data = JSON.parse(holdings || '{}')
+      data[coin] = amount
+      blockstack.putFile(STORAGE_FILE, JSON.stringify(data))
+      dispatch({
+        type: UPDATE_HOLDING,
+        holdings: data
+      })
+
+    });
   }
 };

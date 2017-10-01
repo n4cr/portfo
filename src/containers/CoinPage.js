@@ -6,19 +6,20 @@ import {
   Row,
   Col,
   Container,
-  Button,
   Form,
   FormGroup,
   Label,
   Input,
-  FormText,
   InputGroup,
   InputGroupAddon
 } from 'reactstrap';
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {loadCoin} from '../modules/coin'
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {loadCoin} from '../modules/coin';
 import {Link} from 'react-router-dom';
+import CoinHoldingBox from '../components/CoinHoldingBox';
+import {updateHoldings} from '../modules/account'
+import {updateHoldingInput } from '../modules/ui'
 
 class CoinPage extends React.Component {
   static PropTypes = {}
@@ -30,7 +31,9 @@ class CoinPage extends React.Component {
   render() {
     const props = this.props;
     const coin = props.coin;
-    console.log(this.props);
+    const holdings = props.holdings;
+
+    const amount = !!coin && coin.id && holdings ? holdings[coin.id] : 0 // holdings[coin.symbol] || 0;
     return (
         <Container>
           <Row className="mt-3">
@@ -40,7 +43,8 @@ class CoinPage extends React.Component {
           </Row>
           <Row className="mt-3 mb-5">
             <Col>
-              <h3>{coin.name}</h3>
+
+              <h2>{coin.name}</h2>
               This is the coin page {this.props.match.params.coin}
               Selected {this.props.coin.name}
             </Col>
@@ -49,17 +53,14 @@ class CoinPage extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col>
-              <Form>
-                <FormGroup>
-                  <Label for="holdings">Holdings</Label>
-                  <InputGroup>
-                    <Input type="email" name="email" id="holdings"
-                           placeholder="with a placeholder"/>
-                    <InputGroupAddon>{coin.symbol}</InputGroupAddon>
-                  </InputGroup>
-                </FormGroup>
-              </Form>
+            <Col xs="12" sm="8" md="4">
+              <CoinHoldingBox
+                  coin={coin}
+                  value={amount}
+                  holdingInput={this.props.holdingInput}
+                  updateHoldingInput={this.props.updateHoldingInput}
+                  onSave={this.props.updateHoldings}
+              />
             </Col>
           </Row>
         </Container>
@@ -69,10 +70,14 @@ class CoinPage extends React.Component {
 
 const mapStateToProps = state => ({
   coin: state.coin.selected,
+  holdings: state.account.holdings,
+  holdingInput: state.ui.holdingInput,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  loadCoin
+  loadCoin,
+  updateHoldings,
+  updateHoldingInput,
 }, dispatch)
 
 export default connect(

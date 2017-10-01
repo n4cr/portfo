@@ -7,7 +7,6 @@ import CoinRow from './CoinRow'
 
 export default class CoinList extends React.Component {
   render() {
-    console.log(this.props.list);
 
     const rows = this.props.list.map((row) => <CoinRow
         currency={this.props.currency} key={row.id}

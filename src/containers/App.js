@@ -22,9 +22,10 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 
-window.blockstack = require('blockstack')
-window.blockstackStorage = require('blockstack-storage')
-window.axios = require('axios')
+window.blockstack = require('blockstack');
+window.blockstackStorage = require('blockstack-storage');
+window.axios = require('axios');
+
 
 class App extends React.Component {
 

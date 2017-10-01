@@ -24,6 +24,7 @@ export default class CurrencySelector extends React.Component {
   render() {
     const currencies = [
       "USD",
+      "BTC",
       "AUD",
       "BRL",
       "CAD",

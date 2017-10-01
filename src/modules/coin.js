@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
       }
     case CHANGE_CURRENCY:
       return {
-          ...state,
+        ...state,
         currency: action.currency
       }
     default:
@@ -48,10 +48,10 @@ export const loadCoinList = (curr = '') => {
   }
 }
 
-export const loadCoin = (id) => {
+export const loadCoin = (id, curr = '') => {
   return dispatch => {
     // now load coins and then dispatch
-    window.axios.get(`https://api.coinmarketcap.com/v1/ticker/${id}/`).then((response) => {
+    window.axios.get(`https://api.coinmarketcap.com/v1/ticker/${id}/?convert=${curr}`).then((response) => {
       dispatch({
         type: LOAD_COIN_SUCCESS,
         selected: response.data[0]

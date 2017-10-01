@@ -2,38 +2,37 @@
  * Created by nasir on 30/09/2017.
  */
 import React from 'react';
-import {
-  Row,
-  Col,
-  Container,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  InputGroup,
-  InputGroupAddon
-} from 'reactstrap';
+import {Row, Col, Container} from 'reactstrap';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {loadCoin} from '../modules/coin';
 import {Link} from 'react-router-dom';
 import CoinHoldingBox from '../components/CoinHoldingBox';
-import {updateHoldings} from '../modules/account'
-import {updateHoldingInput } from '../modules/ui'
+import {updateHoldings} from '../modules/account';
+import {updateHoldingInput} from '../modules/ui';
+import numeral from 'numeral'
 
 class CoinPage extends React.Component {
   static PropTypes = {}
 
   componentDidMount() {
-    this.props.loadCoin(this.props.match.params.coin);
+    this.props.loadCoin(this.props.match.params.coin, this.props.currency);
   }
 
   render() {
     const props = this.props;
     const coin = props.coin;
     const holdings = props.holdings;
+    const amount = !!coin && coin.id && holdings && holdings[coin.id] ? holdings[coin.id] : 0;
+    const currency = this.props.currency;
+    const price = coin['price_' + currency.toLowerCase()];
+    const value_in_currency = !!amount ? amount * price : 0;
+    const market_cap = numeral(coin['market_cap_' + currency.toLowerCase()]).format('0.0a');
+    const volume = numeral(coin['24h_volume_' + currency.toLowerCase()]).format('0.0a');
+    const change_1h = coin['percent_change_1h'];
+    const change_24h = coin['percent_change_24h'];
+    const change_7d = coin['percent_change_7d'];
 
-    const amount = !!coin && coin.id && holdings ? holdings[coin.id] : 0 // holdings[coin.symbol] || 0;
     return (
         <Container>
           <Row className="mt-3">
@@ -41,19 +40,14 @@ class CoinPage extends React.Component {
               <Link to="/">← Back</Link>
             </Col>
           </Row>
-          <Row className="mt-3 mb-5">
+          <Row className="mt-3 mb-3">
             <Col>
 
               <h2>{coin.name}</h2>
-              This is the coin page {this.props.match.params.coin}
-              Selected {this.props.coin.name}
-            </Col>
-            <Col>
-
             </Col>
           </Row>
           <Row>
-            <Col xs="12" sm="8" md="4">
+            <Col xs="6" sm="8" md="4">
               <CoinHoldingBox
                   coin={coin}
                   value={amount}
@@ -61,6 +55,42 @@ class CoinPage extends React.Component {
                   updateHoldingInput={this.props.updateHoldingInput}
                   onSave={this.props.updateHoldings}
               />
+            </Col>
+            <Col>
+              <h4>{value_in_currency}
+                <small className="text-muted"><br/>Value in {currency}</small>
+              </h4>
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col>
+              <h6>
+                Current Price<br/>
+                <small className="text-muted">{price} {currency}</small>
+              </h6>
+            </Col>
+            <Col>
+              <h6>
+                Market Cap<br/>
+                <small className="text-muted">{market_cap} {currency}</small>
+              </h6>
+            </Col>
+            <Col>
+              <h6>
+                24 Hour Volume<br/>
+                <small className="text-muted">{volume} {currency}</small>
+              </h6>
+            </Col>
+            <Col>
+              <div>
+                <small>1H {change_1h}%</small>
+              </div>
+              <div>
+                <small>24H {change_24h}%</small>
+              </div>
+              <div>
+                <small>7D {change_7d}%</small>
+              </div>
             </Col>
           </Row>
         </Container>
@@ -72,6 +102,7 @@ const mapStateToProps = state => ({
   coin: state.coin.selected,
   holdings: state.account.holdings,
   holdingInput: state.ui.holdingInput,
+  currency: state.coin.currency,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

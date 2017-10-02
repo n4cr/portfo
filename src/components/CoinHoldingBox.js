@@ -2,21 +2,8 @@
  * Created by nasir on 01/10/2017.
  */
 import React from 'react';
-import numeral from 'numeral'
-
-import {
-  Row,
-  Col,
-  Container,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  InputGroup,
-  InputGroupAddon
-} from 'reactstrap';
+import numeral from 'numeral';
+import {Form, FormGroup, Input, InputGroup, InputGroupAddon} from 'reactstrap';
 
 export default class CoinHoldingBox extends React.Component {
   static PropTypes = {}

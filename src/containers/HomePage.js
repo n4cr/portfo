@@ -1,12 +1,12 @@
 import React from 'react';
 import './Holding.css';
-import {Row, Col, Container, Button} from 'reactstrap';
+import {Row, Col, Container} from 'reactstrap';
 import Tabs from '../components/Tabs';
-import CurrencySelector from '../components/CurrencySelector'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {changeCurrency, loadCoinList} from '../modules/coin'
-import {holdingsList, portfolioValue} from '../modules/account'
+import CurrencySelector from '../components/CurrencySelector';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {changeCurrency, loadCoinList} from '../modules/coin';
+import {holdingsList, portfolioValue} from '../modules/account';
 
 class HomePage extends React.Component {
   static PropTypes = {}

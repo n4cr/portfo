@@ -14,12 +14,10 @@ import {
   Container,
   Button
 } from 'reactstrap';
-import {signinSuccess, signout, loadHoldings, updateHoldings} from '../modules/account'
-import {loadCoinList} from '../modules/coin'
-
-import {push} from 'react-router-redux'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
+import {signinSuccess, signout, loadHoldings, updateHoldings} from '../modules/account';
+import {loadCoinList} from '../modules/coin';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 
 
 window.blockstack = require('blockstack');
@@ -29,18 +27,11 @@ window.axios = require('axios');
 
 class App extends React.Component {
 
-
-  constructor() {
-    super()
-
-    // load holdings from blockstack
-
-  }
-
   componentDidMount() {
+    console.log('Did mount');
     let user;
     const blockstack = window.blockstack;
-
+    //
     if (blockstack.isUserSignedIn()) {
       user = blockstack.loadUserData().profile;
       this.props.signinSuccess(user);
@@ -50,8 +41,6 @@ class App extends React.Component {
           .then((userData) => {
             console.log(userData);
             window.location = window.location.origin;
-
-            // Store userData in Redux
           })
     }
 

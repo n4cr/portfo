@@ -2,8 +2,7 @@
  * Created by nasir on 01/10/2017.
  */
 import React from 'react';
-import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
-import {Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
+import {FormGroup, Input} from 'reactstrap';
 
 export default class CurrencySelector extends React.Component {
   constructor(props) {

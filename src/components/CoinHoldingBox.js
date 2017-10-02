@@ -43,7 +43,19 @@ export default class CoinHoldingBox extends React.Component {
 
   render() {
     const coin = this.props.coin;
-    const holdingValue = numeral(this.props.value) * numeral(this.coin);
+    const signinElem = (
+        <div>
+          <a onClick={this.props.signin} href="#">Sign in to change</a>
+        </div>
+    );
+    const editLink = (
+        <div>
+          <a onClick={this.startEdit.bind(this)} href="#">Change</a>
+        </div>
+    );
+
+    const editLinkElem = (!!this.props.user ? editLink : signinElem);
+
     const editElem = (
         <div>
           <Form>
@@ -61,8 +73,10 @@ export default class CoinHoldingBox extends React.Component {
               <small className="text-muted">Holdings</small>
             </h4>
           </Form>
-          <a onClick={() => this.save(this.props.holdingInput)} href="#">Save</a>
-          <a onClick={() => this.cancel()} href="#">Cancel</a>
+          <div>
+            <a className="mr-2" onClick={() => this.save(this.props.holdingInput)} href="#">Save</a>
+            <a onClick={() => this.cancel()} href="#">Cancel</a>
+          </div>
         </div>
     );
 
@@ -71,7 +85,7 @@ export default class CoinHoldingBox extends React.Component {
           <h4>{this.props.value} {coin.symbol}
             <small className="text-muted"><br/>Holdings</small>
           </h4>
-          <a onClick={this.startEdit.bind(this)} href="#">Change</a>
+          {editLinkElem}
         </div>
     );
 

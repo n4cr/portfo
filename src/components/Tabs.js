@@ -1,5 +1,5 @@
 import React from 'react';
-import {TabContent, TabPane, Nav, NavItem, NavLink, Row, Col} from 'reactstrap';
+import {TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Button} from 'reactstrap';
 import classnames from 'classnames';
 import CoinList from './CoinList';
 
@@ -34,6 +34,14 @@ export default class Tabs extends React.Component {
   }
 
   render() {
+
+    const loggedOutContent = (
+        <div className="text-center mt-4">
+          <p>To manage your portfolio please <a onClick={this.props.signin} href="#">log in to Blockstack</a></p>
+        </div>
+    );
+
+    const holdingContent = this.props.holdingsList.length > 0 ? (<CoinList currency={this.props.currency} list={this.props.holdingsList}/>) : loggedOutContent;
     return (
         <div className="container">
           <Nav tabs className="nav-justified">
@@ -69,7 +77,7 @@ export default class Tabs extends React.Component {
             <TabPane tabId="2">
               <Row>
                 <Col sm="12">
-                  <CoinList currency={this.props.currency} list={this.props.holdingsList}/>
+                  {holdingContent}
                 </Col>
               </Row>
             </TabPane>

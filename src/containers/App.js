@@ -28,7 +28,6 @@ window.axios = require('axios');
 class App extends React.Component {
 
   componentDidMount() {
-    console.log('Did mount');
     let user;
     const blockstack = window.blockstack;
     //
@@ -43,32 +42,11 @@ class App extends React.Component {
             window.location = window.location.origin;
           })
     }
-
     this.props.loadCoinList();
-  }
-
-  signin() {
-    const blockstack = window.blockstack
-    blockstack.redirectToSignIn()
   }
 
   render() {
 
-    const signInButton = (
-        <Container>
-          <Button  onClick={() => {
-            this.signin()
-          }}>SignIn</Button>
-        </Container>
-    )
-
-    const routes = (
-        <main>
-          <Route exact path="/" component={HomepPage}/>
-          <Route path="/coin/:coin" component={CoinPage}/>
-          <Route exact path="/about-us" component={About}/>
-        </main>
-    )
     const user = this.props.user
 
     const signoutButton = user ? (
@@ -76,7 +54,6 @@ class App extends React.Component {
               <a href="#" onClick={() => this.props.signout()}>Logout</a>
             </NavItem>
         ) : null;
-    const content = user === null ? signInButton : routes;
     return (
         <div className="App">
           <Navbar color="faded" light toggleable>
@@ -85,7 +62,7 @@ class App extends React.Component {
               <NavbarBrand href="/">Portfo</NavbarBrand>
               <Collapse isOpen={false} navbar>
                 <Nav className="ml-auto" navbar>
-                  <NavItem>
+                  <NavItem className="mr-2">
                     <Link to="/about-us">About</Link>
                   </NavItem>
                   {signoutButton}
@@ -94,7 +71,11 @@ class App extends React.Component {
             </Container>
 
           </Navbar>
-          {content}
+          <main>
+            <Route exact path="/" component={HomepPage}/>
+            <Route path="/coin/:coin" component={CoinPage}/>
+            <Route exact path="/about-us" component={About}/>
+          </main>
         </div>
     )
   }

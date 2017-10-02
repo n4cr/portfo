@@ -19,6 +19,11 @@ class CoinPage extends React.Component {
     this.props.loadCoin(this.props.match.params.coin, this.props.currency);
   }
 
+  signin() {
+    const blockstack = window.blockstack;
+    blockstack.redirectToSignIn();
+  }
+
   render() {
     const props = this.props;
     const coin = props.coin;
@@ -54,6 +59,8 @@ class CoinPage extends React.Component {
                   holdingInput={this.props.holdingInput}
                   updateHoldingInput={this.props.updateHoldingInput}
                   onSave={this.props.updateHoldings}
+                  user={this.props.user}
+                  signin={this.signin}
               />
             </Col>
             <Col>
@@ -103,6 +110,7 @@ const mapStateToProps = state => ({
   holdings: state.account.holdings,
   holdingInput: state.ui.holdingInput,
   currency: state.coin.currency,
+  user: state.account.user,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

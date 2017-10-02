@@ -1,15 +1,22 @@
 import React from 'react';
 import './Holding.css';
-import {Row, Col, Container} from 'reactstrap';
+import {Row, Col, Container, Button} from 'reactstrap';
 import Tabs from '../components/Tabs';
 import CurrencySelector from '../components/CurrencySelector';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {changeCurrency, loadCoinList} from '../modules/coin';
-import {holdingsList, portfolioValue} from '../modules/account';
+import {holdingsList, portfolioValue, signinSuccess, loadHoldings} from '../modules/account';
+
 
 class HomePage extends React.Component {
   static PropTypes = {}
+
+
+  signin() {
+    const blockstack = window.blockstack
+    blockstack.redirectToSignIn()
+  }
 
   onCurrencyChange(currency) {
     this.props.changeCurrency(currency);
@@ -17,13 +24,26 @@ class HomePage extends React.Component {
   }
 
   render() {
+    const signInButton = (
+        <Container>
+          <div className="mt-4">
+            <p>To manage your portfolio please <a onClick={this.signin} href="#">log in to Blockstack</a></p>
+          </div>
+        </Container>
+    )
+
+    const portfoValue = (
+        <h3>{this.props.portfolioValue} {this.props.currency}<br/>
+          <small className="text-muted">Holdings</small>
+        </h3>
+    )
+
+    const header = !!this.props.user ? portfoValue : signInButton
     return (
         <Container>
           <Row className="mt-5 mb-5">
             <Col xs="8" sm="10">
-              <h3>{this.props.portfolioValue}<br/>
-                <small className="text-muted">Holdings</small>
-              </h3>
+              {header}
             </Col>
             <Col xs="4" sm="2">
               <CurrencySelector currency={this.props.currency}
@@ -35,6 +55,7 @@ class HomePage extends React.Component {
                 currency={this.props.currency}
                 list={this.props.list}
                 holdingsList={this.props.holdingsList}
+                signin={this.signin}
             />
           </Row>
         </Container>
@@ -47,11 +68,14 @@ const mapStateToProps = state => ({
   holdingsList: holdingsList(state),
   portfolioValue: portfolioValue(state),
   currency: state.coin.currency,
+  user: state.account.user,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   changeCurrency,
   loadCoinList,
+  signinSuccess,
+  loadHoldings,
 }, dispatch)
 
 export default connect(

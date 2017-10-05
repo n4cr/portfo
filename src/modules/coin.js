@@ -8,6 +8,15 @@ export const LOAD_COIN_SUCCESS = 'coin/LOAD_COIN_SUCCESS';
 export const CHANGE_CURRENCY = 'coin/CHANGE_CURRENCY';
 export const LOAD_COIN_CHART_DATA_SUCCESS = 'coin/LOAD_COIN_CHART_DATA_SUCCESS'
 
+const POLONIEX_PAIR = {
+  BTC: 'USDT_BTC',
+  ETH: 'USDT_ETH',
+  XRP: 'USDT_XRP',
+  BCH: 'USDT_BCH',
+  LTC: 'USDT_LTC',
+  DASH: 'USDT_DASH',
+
+}
 const initialState = {
   list: [],
   chartData: [],
@@ -88,8 +97,9 @@ export const changeCurrency = (curr) => {
 
 export const loadCoinChartData = (coin, period) => {
   return dispatch => {
-    // TODO: adjust the 
-    window.axios.get(`https://poloniex.com/public?command=returnChartData&currencyPair=USDT_${coin}&start=1502699200&end=9999999999&period=${period}`).then((response) => {
+    const pair = POLONIEX_PAIR[coin];
+    // TODO: adjust the
+    window.axios.get(`https://poloniex.com/public?command=returnChartData&currencyPair=${pair}&start=1502699200&end=9999999999&period=${period}`).then((response) => {
       if (response.data.error) {
         // TODO: Handle the error in a better way
         dispatch({
@@ -114,3 +124,7 @@ export const clearChart = () => {
     })
   }
 };
+
+export const loadOrderBook = (coin) => {
+
+}

@@ -6,6 +6,7 @@ import {format} from 'd3-format';
 import {ChartCanvas, Chart} from 'react-stockcharts';
 import {LineSeries} from 'react-stockcharts/lib/series';
 import {XAxis, YAxis} from 'react-stockcharts/lib/axes';
+import {fitWidth} from 'react-stockcharts/lib/helper';
 import {last, first, timeIntervalBarWidth} from 'react-stockcharts/lib/utils';
 import {
   CrossHairCursor,
@@ -45,7 +46,7 @@ class PriceChart extends React.Component {
                 <a className="mr-2" href="#"
                    onClick={() => this.props.loadCoinChartData(this.props.coin.symbol, 86400)}>1d</a>
               </div>
-              <ChartCanvas width={1000} height={400}
+              <ChartCanvas width={900} height={400}
                            panEvent={false}
                            zoomEvent={false}
                            margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
@@ -87,6 +88,6 @@ class PriceChart extends React.Component {
 PriceChart.defaultProps = {
   type: "svg",
 };
-// PriceChart = fitWidth(PriceChart);
+PriceChart = fitWidth(PriceChart);
 
 export default PriceChart;

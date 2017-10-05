@@ -12,6 +12,7 @@ import {loadCoin, loadCoinChartData} from '../modules/coin';
 import {updateHoldingInput} from '../modules/ui';
 import numeral from 'numeral';
 import PriceChart from '../components/PriceChart';
+import OrderBook from '../components/OrderBook';
 
 class CoinPage extends React.Component {
   static PropTypes = {}
@@ -110,6 +111,10 @@ class CoinPage extends React.Component {
                   loadCoinChartData={this.props.loadCoinChartData}
               />
             </Col>
+          </Row>
+
+          <Row>
+            <OrderBook/>
           </Row>
         </Container>
     )

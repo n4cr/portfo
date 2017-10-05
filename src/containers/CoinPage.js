@@ -5,12 +5,13 @@ import React from 'react';
 import {Row, Col, Container} from 'reactstrap';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {loadCoin} from '../modules/coin';
 import {Link} from 'react-router-dom';
 import CoinHoldingBox from '../components/CoinHoldingBox';
 import {updateHoldings} from '../modules/account';
+import {loadCoin, loadCoinChartData} from '../modules/coin';
 import {updateHoldingInput} from '../modules/ui';
-import numeral from 'numeral'
+import numeral from 'numeral';
+import PriceChart from '../components/PriceChart';
 
 class CoinPage extends React.Component {
   static PropTypes = {}
@@ -37,6 +38,7 @@ class CoinPage extends React.Component {
     const change_1h = coin['percent_change_1h'];
     const change_24h = coin['percent_change_24h'];
     const change_7d = coin['percent_change_7d'];
+
 
     return (
         <Container>
@@ -100,6 +102,15 @@ class CoinPage extends React.Component {
               </div>
             </Col>
           </Row>
+          <Row>
+            <Col>
+              <PriceChart
+                  coin={this.props.coin}
+                  data={this.props.coinChartData}
+                  loadCoinChartData={this.props.loadCoinChartData}
+              />
+            </Col>
+          </Row>
         </Container>
     )
   }
@@ -111,10 +122,12 @@ const mapStateToProps = state => ({
   holdingInput: state.ui.holdingInput,
   currency: state.coin.currency,
   user: state.account.user,
+  coinChartData: state.coin.chartData
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   loadCoin,
+  loadCoinChartData,
   updateHoldings,
   updateHoldingInput,
 }, dispatch)

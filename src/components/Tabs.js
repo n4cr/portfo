@@ -21,18 +21,6 @@ export default class Tabs extends React.Component {
     }
   }
 
-  save() {
-    window.blockstack.putFile('newfile.json', JSON.stringify({ content: 'kirikhan' }))
-
-  }
-
-  fetchData() {
-    window.blockstack.getFile('newfile.json')
-        .then((todosText) => {
-          console.log(todosText)
-        })
-  }
-
   render() {
 
     const loggedOutContent = (

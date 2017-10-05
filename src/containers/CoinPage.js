@@ -13,6 +13,7 @@ import {updateHoldingInput} from '../modules/ui';
 import numeral from 'numeral';
 import PriceChart from '../components/PriceChart';
 import OrderBook from '../components/OrderBook';
+import CoinPageTabs from '../components/CoinPageTabs';
 
 class CoinPage extends React.Component {
   static PropTypes = {}
@@ -105,16 +106,12 @@ class CoinPage extends React.Component {
           </Row>
           <Row>
             <Col>
-              <PriceChart
+              <CoinPageTabs
+                  coinChartData={this.props.coinChartData}
                   coin={this.props.coin}
-                  data={this.props.coinChartData}
                   loadCoinChartData={this.props.loadCoinChartData}
               />
             </Col>
-          </Row>
-
-          <Row>
-            <OrderBook/>
           </Row>
         </Container>
     )

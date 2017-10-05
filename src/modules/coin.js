@@ -15,6 +15,11 @@ const POLONIEX_PAIR = {
   BCH: 'USDT_BCH',
   LTC: 'USDT_LTC',
   DASH: 'USDT_DASH',
+  XEM: 'BTC_XEM',
+  NEO: 'BTC_NEOS',
+  XMR: 'USDT_XMR',
+  ETC: 'USDT_ETC',
+  BCC: 'BTC_BCC',
 
 }
 const initialState = {
@@ -55,7 +60,7 @@ export default (state = initialState, action) => {
 export const loadCoinList = (curr = '') => {
   return dispatch => {
     // now load coins and then dispatch
-    window.axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=20&convert=${curr}`).then((response) => {
+    window.axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=11&convert=${curr}`).then((response) => {
       dispatch({
         type: LOAD_COIN_LIST_SUCCESS,
         data: response.data

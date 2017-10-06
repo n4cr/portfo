@@ -26,7 +26,7 @@ const POLONIEX_PAIR = {
 const initialState = {
   list: [],
   chartData: [],
-  orderBookData: { asks: [], bids: []},
+  orderBookData: { asks: [], bids: [] },
   selected: {},
   currency: 'USD',
   pair: '',
@@ -56,8 +56,8 @@ export default (state = initialState, action) => {
       };
     case LOAD_ORDER_BOOK_SUCCESS:
       return {
-          ...state,
-          orderBookData: action.data,
+        ...state,
+        orderBookData: action.data,
       };
     default:
       return state
@@ -111,8 +111,11 @@ export const changeCurrency = (curr) => {
 export const loadCoinChartData = (coin, period) => {
   return dispatch => {
     const pair = POLONIEX_PAIR[coin];
+    const now = new Date().getTime()
+    //400 data points
+    const start = (now - 400 * period * 1000) / 1000;
     // TODO: adjust the
-    window.axios.get(`https://poloniex.com/public?command=returnChartData&currencyPair=${pair}&start=1502699200&end=9999999999&period=${period}`).then((response) => {
+    window.axios.get(`https://poloniex.com/public?command=returnChartData&currencyPair=${pair}&start=${start}&end=9999999999&period=${period}`).then((response) => {
       if (response.data.error) {
         // TODO: Handle the error in a better way
         dispatch({
@@ -148,7 +151,7 @@ export const loadOrderBook = (coin) => {
         // TODO: Handle the error in a better way
         dispatch({
           type: LOAD_ORDER_BOOK_SUCCESS,
-          data: { asks: [], bids: []}
+          data: { asks: [], bids: [] }
         })
       } else {
         dispatch({

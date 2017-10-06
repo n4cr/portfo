@@ -23,13 +23,13 @@ export default class Tabs extends React.Component {
 
   render() {
 
-    const loggedOutContent = (
+    const emptyState = (
         <div className="text-center mt-4">
-          <p>To manage your portfolio please <a onClick={this.props.signin} href="#">log in to Blockstack</a></p>
+          <p>You have no holdings at the moment. You can choose a coin and add your holdings there.</p>
         </div>
     );
 
-    const holdingContent = this.props.holdingsList.length > 0 ? (<CoinList currency={this.props.currency} list={this.props.holdingsList}/>) : loggedOutContent;
+    const holdingContent = this.props.holdingsList.length > 0 ? (<CoinList currency={this.props.currency} list={this.props.holdingsList}/>) : emptyState;
     return (
         <div className="container">
           <Nav tabs className="nav-justified">

@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {changeCurrency, loadCoinList} from '../modules/coin';
 import {holdingsList, portfolioValue, signinSuccess, loadHoldings} from '../modules/account';
 
+import {currencySymbols} from '../utils';
 
 class HomePage extends React.Component {
   static PropTypes = {}
@@ -33,7 +34,7 @@ class HomePage extends React.Component {
     )
 
     const portfoValue = (
-        <h3>{this.props.portfolioValue} {this.props.currency}<br/>
+        <h3>{currencySymbols[this.props.currency]}{this.props.portfolioValue}<br/>
           <small className="text-muted">Holdings</small>
         </h3>
     )

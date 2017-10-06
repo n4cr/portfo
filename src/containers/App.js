@@ -47,7 +47,7 @@ class App extends React.Component {
 
   render() {
 
-    const user = this.props.user
+    const user = this.props.user;
 
     const signoutButton = user ? (
             <NavItem>

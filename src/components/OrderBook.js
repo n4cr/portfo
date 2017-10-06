@@ -35,6 +35,8 @@ class OrderBook extends React.Component {
       return (<div>Loading data</div>)
     }
 
+    console.log(this.props.width);
+    console.log(this.props.ratio);
 
     const cumasks = asks.reduce(function (r, a) {
 
@@ -57,38 +59,40 @@ class OrderBook extends React.Component {
     const xExtents = [numeral(first(final).price).value(), numeral(last(final).price).value()];
 
     return (
-        <ChartCanvas ratio={2} width={900} height={400}
-                     margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
-                     zoomEvent={false}
-                     panEvent={false}
-                     seriesName="MSFT"
-                     data={final}
-                     type="svg"
-                     xAccessor={d => d ? numeral(d.price).value() : null}
-                     displayXAccessor={d => d ? numeral(d.price).value() : null}
-                     xScale={scaleLinear()}
-                     xExtents={xExtents}>
-          <Chart id={0} yExtents={d => Math.max(d.ask, d.bid)}>
-            <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
-            <YAxis axisAt="left" orient="left"/>
-            <AreaSeries
-                yAccessor={d => d.bid}
-                stroke="#6BA16E"
-                fill="#93DE7F"
-            />
-            <AreaSeries
-                yAccessor={d => d.ask}
-                stroke="#E36B6B"
-                fill="#F6C1C1"
-            />
+        <div>
+          <ChartCanvas ratio={2} width={1100} height={400}
+                       margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
+                       zoomEvent={false}
+                       panEvent={false}
+                       seriesName="MSFT"
+                       data={final}
+                       type="svg"
+                       xAccessor={d => d ? numeral(d.price).value() : null}
+                       displayXAccessor={d => d ? numeral(d.price).value() : null}
+                       xScale={scaleLinear()}
+                       xExtents={xExtents}>
+            <Chart id={0} yExtents={d => Math.max(d.ask, d.bid)}>
+              <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
+              <YAxis axisAt="left" orient="left"/>
+              <AreaSeries
+                  yAccessor={d => d.bid}
+                  stroke="#6BA16E"
+                  fill="#93DE7F"
+              />
+              <AreaSeries
+                  yAccessor={d => d.ask}
+                  stroke="#E36B6B"
+                  fill="#F6C1C1"
+              />
 
-            <HoverTooltip
-                yAccessor={d => d.ask}
-                tooltipContent={this.tooltipContent}
+              <HoverTooltip
+                  yAccessor={d => d.ask}
+                  tooltipContent={this.tooltipContent}
 
-                fontSize={15}/>
-          </Chart>
-        </ChartCanvas>
+                  fontSize={15}/>
+            </Chart>
+          </ChartCanvas>
+        </div>
     );
   }
 }

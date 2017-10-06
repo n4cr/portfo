@@ -31,7 +31,7 @@ class PriceChart extends React.Component {
 
     return data.length === 0 ? null : (
             <div>
-              <div>
+              <div className="text-right">
                 <a className="mr-2" href="#"
                    onClick={() => this.props.loadCoinChartData(this.props.coin.symbol, 300)}>5m</a>
                 <a className="mr-2" href="#"

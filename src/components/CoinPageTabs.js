@@ -66,7 +66,7 @@ export default class CoinPageTabs extends React.Component {
             <TabPane tabId="2">
               <Row>
                 <Col sm="12">
-                  <OrderBook/>
+                  <OrderBook data={this.props.orderBookData}/>
                 </Col>
               </Row>
             </TabPane>

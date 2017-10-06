@@ -18,7 +18,6 @@ import {
 class PriceChart extends React.Component {
   render() {
     const { type, width, ratio, data } = this.props;
-    console.log(data);
 
     const xAccessor = (d) => {
 

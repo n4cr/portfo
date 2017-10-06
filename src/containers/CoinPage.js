@@ -11,8 +11,6 @@ import {updateHoldings} from '../modules/account';
 import {loadCoin, loadCoinChartData} from '../modules/coin';
 import {updateHoldingInput} from '../modules/ui';
 import numeral from 'numeral';
-import PriceChart from '../components/PriceChart';
-import OrderBook from '../components/OrderBook';
 import CoinPageTabs from '../components/CoinPageTabs';
 
 class CoinPage extends React.Component {
@@ -110,6 +108,7 @@ class CoinPage extends React.Component {
                   coinChartData={this.props.coinChartData}
                   coin={this.props.coin}
                   loadCoinChartData={this.props.loadCoinChartData}
+                  orderBookData={this.props.orderBookData}
               />
             </Col>
           </Row>
@@ -124,7 +123,8 @@ const mapStateToProps = state => ({
   holdingInput: state.ui.holdingInput,
   currency: state.coin.currency,
   user: state.account.user,
-  coinChartData: state.coin.chartData
+  coinChartData: state.coin.chartData,
+  orderBookData: state.coin.orderBookData,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -6,7 +6,8 @@ export const LOAD_COINS = 'coin/LOAD_COINS';
 export const LOAD_COIN_LIST_SUCCESS = 'coin/LOAD_COIN_LIST_SUCCESS';
 export const LOAD_COIN_SUCCESS = 'coin/LOAD_COIN_SUCCESS';
 export const CHANGE_CURRENCY = 'coin/CHANGE_CURRENCY';
-export const LOAD_COIN_CHART_DATA_SUCCESS = 'coin/LOAD_COIN_CHART_DATA_SUCCESS'
+export const LOAD_COIN_CHART_DATA_SUCCESS = 'coin/LOAD_COIN_CHART_DATA_SUCCESS';
+export const LOAD_ORDER_BOOK_SUCCESS = 'coin/LOAD_ORDER_BOOK_SUCCESS';
 
 const POLONIEX_PAIR = {
   BTC: 'USDT_BTC',
@@ -25,6 +26,7 @@ const POLONIEX_PAIR = {
 const initialState = {
   list: [],
   chartData: [],
+  orderBookData: { asks: [], bids: []},
   selected: {},
   currency: 'USD',
   pair: '',
@@ -41,17 +43,22 @@ export default (state = initialState, action) => {
         ...state,
         selected: action.selected,
         pair: action.selected['symbol'] + state.currency,
-      }
+      };
     case CHANGE_CURRENCY:
       return {
         ...state,
         currency: action.currency,
-      }
+      };
     case LOAD_COIN_CHART_DATA_SUCCESS:
       return {
         ...state,
         chartData: action.data
-      }
+      };
+    case LOAD_ORDER_BOOK_SUCCESS:
+      return {
+          ...state,
+          orderBookData: action.data,
+      };
     default:
       return state
   }
@@ -60,7 +67,7 @@ export default (state = initialState, action) => {
 export const loadCoinList = (curr = '') => {
   return dispatch => {
     // now load coins and then dispatch
-    window.axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=11&convert=${curr}`).then((response) => {
+    window.axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=15&convert=${curr}`).then((response) => {
       dispatch({
         type: LOAD_COIN_LIST_SUCCESS,
         data: response.data
@@ -83,6 +90,7 @@ export const loadCoin = (id, curr = '') => {
 
       dispatch(clearChart());
       dispatch(loadCoinChartData(coin.symbol, 14400));
+      dispatch(loadOrderBook(coin.symbol));
 
     }).catch(function (error) {
       console.log(error);
@@ -132,4 +140,22 @@ export const clearChart = () => {
 
 export const loadOrderBook = (coin) => {
 
+  return dispatch => {
+    const pair = POLONIEX_PAIR[coin];
+    // TODO: adjust the
+    window.axios.get(`https://poloniex.com/public?command=returnOrderBook&currencyPair=${pair}&depth=200`).then((response) => {
+      if (response.data.error) {
+        // TODO: Handle the error in a better way
+        dispatch({
+          type: LOAD_ORDER_BOOK_SUCCESS,
+          data: { asks: [], bids: []}
+        })
+      } else {
+        dispatch({
+          type: LOAD_ORDER_BOOK_SUCCESS,
+          data: response.data
+        })
+      }
+    })
+  }
 }

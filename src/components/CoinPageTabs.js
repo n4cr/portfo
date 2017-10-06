@@ -6,6 +6,7 @@ import {TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Button} from 'reac
 import classnames from 'classnames';
 import PriceChart from './PriceChart';
 import OrderBook from './OrderBook';
+import OrderBookTable from './OrderBookTable'
 
 export default class CoinPageTabs extends React.Component {
   constructor(props) {
@@ -67,6 +68,19 @@ export default class CoinPageTabs extends React.Component {
               <Row>
                 <Col sm="12">
                   <OrderBook data={this.props.orderBookData}/>
+                </Col>
+              </Row>
+              <Row>
+                <Col><hr/></Col>
+              </Row>
+              <Row className="mt-3">
+                <Col>
+                  <h5>Bids</h5>
+                  <OrderBookTable data={this.props.orderBookData.bids}/>
+                </Col>
+                <Col>
+                  <h5>Asks</h5>
+                  <OrderBookTable data={this.props.orderBookData.asks}/>
                 </Col>
               </Row>
             </TabPane>

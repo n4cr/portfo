@@ -9,6 +9,7 @@ import {AreaSeries} from 'react-stockcharts/lib/series';
 import {XAxis, YAxis} from 'react-stockcharts/lib/axes';
 import {fitWidth} from 'react-stockcharts/lib/helper';
 import {HoverTooltip} from 'react-stockcharts/lib/tooltip';
+import {OrderBookTable} from './OrderBookTable';
 
 class OrderBook extends React.Component {
   tooltipContent(ys) {
@@ -67,7 +68,7 @@ class OrderBook extends React.Component {
                      displayXAccessor={d => d ? numeral(d.price).value() : null}
                      xScale={scaleLinear()}
                      xExtents={xExtents}>
-          <Chart id={0} yExtents={d =>Math.max(d.ask, d.bid)}>
+          <Chart id={0} yExtents={d => Math.max(d.ask, d.bid)}>
             <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
             <YAxis axisAt="left" orient="left"/>
             <AreaSeries

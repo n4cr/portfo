@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import CoinHoldingBox from '../components/CoinHoldingBox';
 import {updateHoldings} from '../modules/account';
-import {loadCoin, loadCoinChartData} from '../modules/coin';
+import {loadCoin, loadCoinChartData, clearChart, loadOrderBook} from '../modules/coin';
 import {updateHoldingInput} from '../modules/ui';
 import numeral from 'numeral';
 import CoinPageTabs from '../components/CoinPageTabs';
@@ -108,7 +108,9 @@ class CoinPage extends React.Component {
                   coinChartData={this.props.coinChartData}
                   coin={this.props.coin}
                   loadCoinChartData={this.props.loadCoinChartData}
+                  clearChart={this.props.clearChart}
                   orderBookData={this.props.orderBookData}
+                  loadOrderBook={this.props.loadOrderBook}
               />
             </Col>
           </Row>
@@ -130,8 +132,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   loadCoin,
   loadCoinChartData,
+  loadOrderBook,
   updateHoldings,
   updateHoldingInput,
+  clearChart,
 }, dispatch)
 
 export default connect(

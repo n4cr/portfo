@@ -60,6 +60,7 @@ export default class CoinPageTabs extends React.Component {
                       coin={this.props.coin}
                       data={this.props.coinChartData}
                       loadCoinChartData={this.props.loadCoinChartData}
+                      clearChart={this.props.clearChart}
                   />
                 </Col>
               </Row>
@@ -67,7 +68,7 @@ export default class CoinPageTabs extends React.Component {
             <TabPane tabId="2">
               <Row>
                 <Col sm="12">
-                  <OrderBook data={this.props.orderBookData}/>
+                  <OrderBook coin={this.props.coin} data={this.props.orderBookData}/>
                 </Col>
               </Row>
               <Row>

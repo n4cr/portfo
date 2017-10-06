@@ -17,7 +17,27 @@ import Loading from './Loading';
 
 
 class PriceChart extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      period: 300
+    }
+  }
+
+  changePeriod(period) {
+    this.props.clearChart();
+    this.setState({
+      period: period
+    });
+    this.props.loadCoinChartData(this.props.coin.symbol, period);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.coin.id != nextProps.coin.id || this.state.period != nextState.period || this.props.data.length != nextProps.data.length;
+  }
+
   render() {
+    console.log('rerendering the chart...');
     const { width, ratio, data } = this.props;
 
     const xAccessor = (d) => {
@@ -29,21 +49,18 @@ class PriceChart extends React.Component {
       xAccessor(last(data))
     ];
 
+    const periods = [[300, '5m'], [900, '15m'], [1800, '30m'], [7200, '2h'], [14400, '4h'], [86400, '1d']];
+    const periodLinks = periods.map((p) => {
+      return p[0] === this.state.period ? (
+              <span className="mr-3"><strong>{p[1]}</strong></span>) : (
+              <a className="mr-3" href="#"
+                 onClick={() => this.changePeriod(p[0])}>{p[1]}</a>
+          )
+    });
     return data.length === 0 ? <h3 className="mt-5 text-center"><Loading/></h3> : (
             <div>
               <div className="text-right">
-                <a className="mr-3" href="#"
-                   onClick={() => this.props.loadCoinChartData(this.props.coin.symbol, 300)}>5m</a>
-                <a className="mr-3" href="#"
-                   onClick={() => this.props.loadCoinChartData(this.props.coin.symbol, 900)}>15m</a>
-                <a className="mr-3" href="#"
-                   onClick={() => this.props.loadCoinChartData(this.props.coin.symbol, 1800)}>30m</a>
-                <a className="mr-3" href="#"
-                   onClick={() => this.props.loadCoinChartData(this.props.coin.symbol, 7200)}>2h</a>
-                <a className="mr-3" href="#"
-                   onClick={() => this.props.loadCoinChartData(this.props.coin.symbol, 14400)}>4h</a>
-                <a className="mr-3" href="#"
-                   onClick={() => this.props.loadCoinChartData(this.props.coin.symbol, 86400)}>1d</a>
+                {periodLinks}
               </div>
               <ChartCanvas width={width} height={400} ratio={ratio}
                            panEvent={false}

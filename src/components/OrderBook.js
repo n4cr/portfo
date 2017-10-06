@@ -26,6 +26,17 @@ class OrderBook extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const bids = this.props.data.bids;
+    const nextBids = nextProps.data.bids;
+
+    const asks = this.props.data.asks;
+    const nextAsks = nextProps.data.asks;
+
+    // Not the best condition but good enough for now
+    return bids.length !== nextBids.length || (bids.length > 0 && nextBids.length > 0 && bids[0][0] !== nextBids[0][0]);
+  }
+
   render() {
     const { data } = this.props;
 
@@ -35,9 +46,7 @@ class OrderBook extends React.Component {
       return (<div>Loading data</div>)
     }
 
-    console.log(this.props.width);
-    console.log(this.props.ratio);
-
+    console.log('rerendering orderbook...')
     const cumasks = asks.reduce(function (r, a) {
 
       r.push([a[0], (r.length && r[r.length - 1][1] || 0) + a[1]]);

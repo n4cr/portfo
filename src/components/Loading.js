@@ -28,7 +28,6 @@ export default class Loading extends React.Component {
   }
 
   tick() {
-    console.log(this.state.counter);
     this.setState({
         ...this.state,
       counter:this.state.counter < 3 ? this.state.counter + 1 : 0

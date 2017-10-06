@@ -21,6 +21,7 @@ const POLONIEX_PAIR = {
   XMR: 'USDT_XMR',
   ETC: 'USDT_ETC',
   BCC: 'BTC_BCC',
+  ZEC: 'USDT_ZEC',
 
 }
 const initialState = {

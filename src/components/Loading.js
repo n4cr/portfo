@@ -24,7 +24,7 @@ export default class Loading extends React.Component {
   }
 
   componentWillUnmount() {
-    this.clearInterval(this.state.timer);
+    clearInterval(this.state.timer);
   }
 
   tick() {
@@ -36,7 +36,9 @@ export default class Loading extends React.Component {
   }
 
   render() {
-    return (<span>{SPIN[this.state.counter]}</span>)
+    return (
+        <span>Loading {SPIN[this.state.counter]}</span>
+    )
 
   }
 

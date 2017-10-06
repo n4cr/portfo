@@ -13,6 +13,7 @@ import {
   MouseCoordinateX,
   MouseCoordinateY
 } from 'react-stockcharts/lib/coordinates';
+import Loading from './Loading';
 
 
 class PriceChart extends React.Component {
@@ -28,7 +29,7 @@ class PriceChart extends React.Component {
       xAccessor(last(data))
     ];
 
-    return data.length === 0 ? null : (
+    return data.length === 0 ? <h3 className="mt-5 text-center"><Loading/></h3> : (
             <div>
               <div className="text-right">
                 <a className="mr-3" href="#"

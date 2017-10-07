@@ -16,6 +16,9 @@ export default class CoinRow extends React.Component {
     const formatted_price = numeral(price).format('0.0000');
     const marketCap = numeral(coin[`market_cap_${currLow}`]).format('0.0a');
 
+    const changeColor = +coin.percent_change_24h > 0 ? "text-success" : "text-danger";
+    const coinPerc = +coin.percent_change_24h > 0 ? "+" + coin.percent_change_24h : coin.percent_change_24h;
+
     const icon = (
         <img src={`https://files.coinmarketcap.com/static/img/coins/32x32/${coin.id}.png`}/>)
     return (
@@ -24,7 +27,7 @@ export default class CoinRow extends React.Component {
           <td><Link to={`/coin/${coin.id}`}><h4>{coin.symbol}</h4></Link></td>
           <td>{formatted_price}</td>
           <td>{marketCap}</td>
-          <td>{coin.percent_change_24h}%</td>
+          <td className={changeColor}>{coinPerc}%</td>
         </tr>
     )
   }

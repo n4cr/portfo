@@ -111,6 +111,7 @@ class CoinPage extends React.Component {
                   clearChart={this.props.clearChart}
                   orderBookData={this.props.orderBookData}
                   loadOrderBook={this.props.loadOrderBook}
+                  priceChartError={this.props.priceChartError}
               />
             </Col>
           </Row>
@@ -127,6 +128,7 @@ const mapStateToProps = state => ({
   user: state.account.user,
   coinChartData: state.coin.chartData,
   orderBookData: state.coin.orderBookData,
+  priceChartError: state.coin.priceChartError,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -61,6 +61,7 @@ export default class CoinPageTabs extends React.Component {
                       data={this.props.coinChartData}
                       loadCoinChartData={this.props.loadCoinChartData}
                       clearChart={this.props.clearChart}
+                      priceChartError={this.props.priceChartError}
                   />
                 </Col>
               </Row>

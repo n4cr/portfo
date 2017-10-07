@@ -2,12 +2,18 @@
  * Created by nasir on 30/09/2017.
  */
 
+
+// Actions
 export const LOAD_COINS = 'coin/LOAD_COINS';
 export const LOAD_COIN_LIST_SUCCESS = 'coin/LOAD_COIN_LIST_SUCCESS';
 export const LOAD_COIN_SUCCESS = 'coin/LOAD_COIN_SUCCESS';
 export const CHANGE_CURRENCY = 'coin/CHANGE_CURRENCY';
 export const LOAD_COIN_CHART_DATA_SUCCESS = 'coin/LOAD_COIN_CHART_DATA_SUCCESS';
 export const LOAD_ORDER_BOOK_SUCCESS = 'coin/LOAD_ORDER_BOOK_SUCCESS';
+export const CHART_DATA_ERROR = 'coin/CHART_DATA_ERROR';
+
+// Constants
+export const PRICE_CHART_ERROR_DATA_NA = 'data_na';
 
 const POLONIEX_PAIR = {
   BTC: 'USDT_BTC',
@@ -23,7 +29,9 @@ const POLONIEX_PAIR = {
   BCC: 'BTC_BCC',
   ZEC: 'USDT_ZEC',
 
-}
+};
+
+// State
 const initialState = {
   list: [],
   chartData: [],
@@ -31,6 +39,7 @@ const initialState = {
   selected: {},
   currency: 'USD',
   pair: '',
+  priceChartError: null // the key to the object PRICE_CHART_ERRORS
 }
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -53,12 +62,18 @@ export default (state = initialState, action) => {
     case LOAD_COIN_CHART_DATA_SUCCESS:
       return {
         ...state,
-        chartData: action.data
+        chartData: action.data,
+        priceChartError: null
       };
     case LOAD_ORDER_BOOK_SUCCESS:
       return {
         ...state,
         orderBookData: action.data,
+      };
+    case CHART_DATA_ERROR:
+      return {
+        ...state,
+        priceChartError: action.key
       };
     default:
       return state
@@ -112,6 +127,13 @@ export const changeCurrency = (curr) => {
 export const loadCoinChartData = (coin, period) => {
   return dispatch => {
     const pair = POLONIEX_PAIR[coin];
+    if (!pair) {
+      dispatch({
+        type: CHART_DATA_ERROR,
+        key: PRICE_CHART_ERROR_DATA_NA,
+      });
+      return;
+    }
     const now = new Date().getTime()
     //400 data points
     const start = (now - 400 * period * 1000) / 1000;
@@ -146,7 +168,6 @@ export const loadOrderBook = (coin) => {
 
   return dispatch => {
     const pair = POLONIEX_PAIR[coin];
-    // TODO: adjust the
     window.axios.get(`https://poloniex.com/public?command=returnOrderBook&currencyPair=${pair}&depth=200`).then((response) => {
       if (response.data.error) {
         // TODO: Handle the error in a better way

@@ -43,7 +43,7 @@ class OrderBook extends React.Component {
     const bids = data.bids;
     const asks = data.asks;
     if (data.asks.length === 0) {
-      return (<div>Loading data</div>)
+      return (<div></div>)
     }
 
     console.log('rerendering orderbook...')

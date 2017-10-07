@@ -14,6 +14,7 @@ import {
   MouseCoordinateY
 } from 'react-stockcharts/lib/coordinates';
 import Loading from './Loading';
+import {PRICE_CHART_ERROR_DATA_NA} from '../modules/coin';
 
 
 class PriceChart extends React.Component {
@@ -33,11 +34,21 @@ class PriceChart extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.coin.id != nextProps.coin.id || this.state.period != nextState.period || this.props.data.length != nextProps.data.length;
+    return this.props.width !== nextProps.width ||
+        this.props.coin.id !== nextProps.coin.id ||
+        this.state.period !== nextState.period ||
+        this.props.data.length !== nextProps.data.length ||
+        this.props.priceChartError !== nextProps.priceChartError;
   }
 
   render() {
     console.log('rerendering the chart...');
+    if (this.props.priceChartError === PRICE_CHART_ERROR_DATA_NA) {
+      return (
+          <h5 className="mt-5 text-center text-danger">At the moment there is not data available for
+            this coin.</h5>
+      )
+    }
     const { width, ratio, data } = this.props;
 
     const xAccessor = (d) => {

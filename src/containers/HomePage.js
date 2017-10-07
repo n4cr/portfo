@@ -56,6 +56,7 @@ class HomePage extends React.Component {
                 currency={this.props.currency}
                 list={this.props.list}
                 holdingsList={this.props.holdingsList}
+                holdings={this.props.holdings}
                 signin={this.signin}
             />
           </Row>
@@ -67,6 +68,7 @@ class HomePage extends React.Component {
 const mapStateToProps = state => ({
   list: state.coin.list,
   holdingsList: holdingsList(state),
+  holdings: state.account.holdings,
   portfolioValue: portfolioValue(state),
   currency: state.coin.currency,
   user: state.account.user,

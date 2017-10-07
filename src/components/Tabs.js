@@ -25,11 +25,18 @@ export default class Tabs extends React.Component {
 
     const emptyState = (
         <div className="text-center mt-4">
-          <p>You have no holdings at the moment. You can choose a coin and add your holdings there.</p>
+          <p>You have no holdings at the moment. You can choose a coin and add your holdings
+            there.</p>
         </div>
     );
 
-    const holdingContent = this.props.holdingsList.length > 0 ? (<CoinList currency={this.props.currency} list={this.props.holdingsList}/>) : emptyState;
+    // TODO: showing the holdings can be improved by removing holdingsList and just using holdings
+    const holdingContent = this.props.holdingsList.length > 0 ? (
+            <CoinList
+                holdings={this.props.holdings}
+                currency={this.props.currency}
+                list={this.props.holdingsList}
+            />) : emptyState;
     return (
         <div className="container">
           <Nav tabs className="nav-justified">
@@ -58,7 +65,10 @@ export default class Tabs extends React.Component {
             <TabPane tabId="1">
               <Row>
                 <Col sm="12">
-                  <CoinList currency={this.props.currency} list={this.props.list}/>
+                  <CoinList
+                      holdings={this.props.holdings}
+                      currency={this.props.currency}
+                      list={this.props.list}/>
                 </Col>
               </Row>
             </TabPane>

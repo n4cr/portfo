@@ -3,7 +3,7 @@
   "name": "Blockstack Portfo",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "http://portfo-blockstack.herokuapp.com/favicon.png",
       "sizes": "192x192",
       "type": "image/png"
     }

@@ -12,7 +12,7 @@ import {loadCoin, loadCoinChartData, clearChart, loadOrderBook} from '../modules
 import {updateHoldingInput} from '../modules/ui';
 import numeral from 'numeral';
 import CoinPageTabs from '../components/CoinPageTabs';
-
+import {formatMoney} from '../utils';
 class CoinPage extends React.Component {
   static PropTypes = {}
 
@@ -66,8 +66,8 @@ class CoinPage extends React.Component {
               />
             </Col>
             <Col>
-              <h4>{value_in_currency}
-                <small className="text-muted"><br/>Value in {currency}</small>
+              <h4>{formatMoney(currency, value_in_currency)}
+                <small className="text-muted"><br/>Holdings Value</small>
               </h4>
             </Col>
           </Row>
@@ -75,7 +75,7 @@ class CoinPage extends React.Component {
             <Col>
               <h6>
                 Current Price<br/>
-                <small className="text-muted">{price} {currency}</small>
+                <small className="text-muted">{formatMoney(currency, price)}</small>
               </h6>
             </Col>
             <Col>

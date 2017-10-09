@@ -34,7 +34,8 @@ class OrderBook extends React.Component {
     const nextAsks = nextProps.data.asks;
 
     // Not the best condition but good enough for now
-    return bids.length !== nextBids.length || (bids.length > 0 && nextBids.length > 0 && bids[0][0] !== nextBids[0][0]);
+    return (bids.length !== nextBids.length) ||
+        (bids.length > 0 && nextBids.length > 0 && bids[0][0] !== nextBids[0][0]);
   }
 
   render() {

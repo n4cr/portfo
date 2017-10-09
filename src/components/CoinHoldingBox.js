@@ -58,7 +58,7 @@ export default class CoinHoldingBox extends React.Component {
 
     const editElem = (
         <div>
-          <Form>
+          <Form onSubmit={() => {this.save(this.props.holdingInput)}}>
             <h4>
               <FormGroup>
                 <InputGroup>

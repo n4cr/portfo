@@ -1,6 +1,7 @@
 /**
  * Created by nasir on 06/10/2017.
  */
+import numeral from 'numeral';
 
 export const currencySymbols = {
   "USD": "$",
@@ -36,4 +37,10 @@ export const currencySymbols = {
   "TRY": "TRY",
   "TWD": "NT$",
   "ZAR": "R"
+}
+
+export const formatMoney = (currency, value, format = '0,0[.]00') => {
+  const symb = currencySymbols[currency];
+  const v = numeral(value).format(format);
+  return `${symb}${v}`;
 }

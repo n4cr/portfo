@@ -37,7 +37,7 @@ const initialState = {
   chartData: [],
   orderBookData: { asks: [], bids: [] },
   selected: {},
-  currency: 'USD',
+  currency: 'EUR',
   pair: '',
   priceChartError: null // the key to the object PRICE_CHART_ERRORS
 }

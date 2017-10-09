@@ -1,11 +1,9 @@
 /**
  * Created by nasir on 29/09/2017.
  */
-
 import React from 'react';
 import {Link} from 'react-router-dom';
-import numeral from 'numeral'
-import {currencySymbols} from '../utils';
+import {formatMoney} from '../utils';
 
 
 export default class CoinRow extends React.Component {
@@ -14,8 +12,9 @@ export default class CoinRow extends React.Component {
 
     const currLow = currency.toLowerCase();
     const price = coin[`price_${currLow}`];
-    const formatted_price = numeral(price).format('0.0000');
-    const marketCap = numeral(coin[`market_cap_${currLow}`]).format('0.0a');
+    const formatted_price = formatMoney(currency, price);
+    const marketCap = formatMoney(currency, coin[`market_cap_${currLow}`], '0.0a');
+
 
     const changeColor = +coin.percent_change_24h > 0 ? "text-success" : "text-danger";
     const coinPerc = +coin.percent_change_24h > 0 ? "+" + coin.percent_change_24h : coin.percent_change_24h;
@@ -28,7 +27,7 @@ export default class CoinRow extends React.Component {
     // TODO: reused this across all pages. currently duplicated
     const value_in_currency = !!holdings && holdings > 0 ? holdings * price : 0;
     const valueElem = value_in_currency > 0 ? (
-            <span>{currencySymbols[currency]}{value_in_currency}</span>) : null
+            <span>{formatMoney(currency, value_in_currency)}</span>) : null;
 
     return (
         <tr >

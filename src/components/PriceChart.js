@@ -33,18 +33,12 @@ class PriceChart extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    let should = this.props.width !== nextProps.width ||
+    return this.props.width !== nextProps.width ||
         this.props.coin.id !== nextProps.coin.id ||
         this.state.period !== nextState.period ||
         this.props.data.length !== nextProps.data.length ||
         this.props.priceChartError !== nextProps.priceChartError ||
         (this.props.data.length > 0 && nextProps.data.length > 0 && this.props.data[0].date !== nextProps.data[0].data);
-
-    return should;
-  }
-
-  componentWillUnmount() {
-    console.log('unmount component');
   }
 
   render() {

@@ -35,8 +35,9 @@ export default class Loading extends React.Component {
   }
 
   render() {
+    const text = this.props.text;
     return (
-        <span>Loading {SPIN[this.state.counter]}</span>
+        <span>{text} {SPIN[this.state.counter]}</span>
     )
 
   }

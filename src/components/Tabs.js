@@ -2,6 +2,7 @@ import React from 'react';
 import {TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Button} from 'reactstrap';
 import classnames from 'classnames';
 import CoinList from './CoinList';
+import Loading from './Loading';
 
 export default class Tabs extends React.Component {
   constructor(props) {
@@ -37,6 +38,8 @@ export default class Tabs extends React.Component {
                 currency={this.props.currency}
                 list={this.props.holdingsList}
             />) : emptyState;
+    const holdingsTabLoading = !this.props.user || this.props.holdingsList.length > 0 ? null :
+        <Loading />
     return (
         <div className="container">
           <Nav tabs className="nav-justified">
@@ -57,7 +60,7 @@ export default class Tabs extends React.Component {
                     this.toggle('2');
                   }}
               >
-                Holdings
+                Holdings {holdingsTabLoading}
               </NavLink>
             </NavItem>
           </Nav>

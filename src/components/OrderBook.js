@@ -43,7 +43,7 @@ class OrderBook extends React.Component {
     const bids = data.bids;
     const asks = data.asks;
     if (data.asks.length === 0) {
-      return (<div></div>)
+      return (<div>Loading data</div>)
     }
 
     console.log('rerendering orderbook...')
@@ -64,51 +64,48 @@ class OrderBook extends React.Component {
     const askData = cumasks.map((a) => ({ price: a[0], ask: a[1], bid: 0 }));
     const bidData = sortedBids.map((a) => ({ price: a[0], ask: 0, bid: a[1] }));
     const final = bidData.concat(askData);
-
     const xExtents = [numeral(first(final).price).value(), numeral(last(final).price).value()];
 
     return (
-        <div>
-          <ChartCanvas ratio={2} width={1100} height={400}
-                       margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
-                       zoomEvent={false}
-                       panEvent={false}
-                       seriesName="MSFT"
-                       data={final}
-                       type="svg"
-                       xAccessor={d => d ? numeral(d.price).value() : null}
-                       displayXAccessor={d => d ? numeral(d.price).value() : null}
-                       xScale={scaleLinear()}
-                       xExtents={xExtents}>
-            <Chart id={0} yExtents={d => Math.max(d.ask, d.bid)}>
-              <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
-              <YAxis axisAt="left" orient="left"/>
-              <AreaSeries
-                  yAccessor={d => d.bid}
-                  stroke="#6BA16E"
-                  fill="#93DE7F"
-              />
-              <AreaSeries
-                  yAccessor={d => d.ask}
-                  stroke="#E36B6B"
-                  fill="#F6C1C1"
-              />
+        <ChartCanvas ratio={2} width={1100} height={400}
+                     margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
+                     zoomEvent={false}
+                     panEvent={false}
+                     seriesName="MSFT"
+                     data={final}
+                     type="svg"
+                     xAccessor={d => d ? numeral(d.price).value() : null}
+                     displayXAccessor={d => d ? numeral(d.price).value() : null}
+                     xScale={scaleLinear()}
+                     xExtents={xExtents}>
+          <Chart id={1} yExtents={d => Math.max(d.ask, d.bid)}>
+            <XAxis axisAt="bottom" orient="bottom" ticks={6}/>
+            <YAxis axisAt="left" orient="left"/>
+            <AreaSeries
+                yAccessor={d => d.bid}
+                stroke="#6BA16E"
+                fill="#93DE7F"
+            />
+            <AreaSeries
+                yAccessor={d => d.ask}
+                stroke="#E36B6B"
+                fill="#F6C1C1"
+            />
 
-              <HoverTooltip
-                  yAccessor={d => d.ask}
-                  tooltipContent={this.tooltipContent}
+            <HoverTooltip
+                yAccessor={d => d.ask}
+                tooltipContent={this.tooltipContent}
 
-                  fontSize={15}/>
-            </Chart>
-          </ChartCanvas>
-        </div>
+                fontSize={15}/>
+          </Chart>
+        </ChartCanvas>
     );
   }
 }
 
 
 OrderBook.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 OrderBook.defaultProps = {

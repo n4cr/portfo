@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {changeCurrency, loadCoinList} from '../modules/coin';
 import {holdingsList, portfolioValue, signinSuccess, loadHoldings} from '../modules/account';
+import numeral from 'numeral';
 
 import {currencySymbols} from '../utils';
 
@@ -25,6 +26,8 @@ class HomePage extends React.Component {
   }
 
   render() {
+    const portfolioValue = numeral(this.props.portfolioValue).format('0,0[.]00');
+
     const signInButton = (
         <Container>
           <div className="mt-4">
@@ -34,7 +37,7 @@ class HomePage extends React.Component {
     )
 
     const portfoValue = (
-        <h3>{currencySymbols[this.props.currency]}{this.props.portfolioValue}<br/>
+        <h3>{currencySymbols[this.props.currency]}{portfolioValue}<br/>
           <small className="text-muted">Holdings</small>
         </h3>
     )
@@ -53,6 +56,7 @@ class HomePage extends React.Component {
           </Row>
           <Row>
             <Tabs
+                user={this.props.user}
                 currency={this.props.currency}
                 list={this.props.list}
                 holdingsList={this.props.holdingsList}

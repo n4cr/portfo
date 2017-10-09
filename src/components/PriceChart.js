@@ -26,7 +26,6 @@ class PriceChart extends React.Component {
   }
 
   changePeriod(period) {
-    this.props.clearChart();
     this.setState({
       period: period
     });
@@ -34,11 +33,18 @@ class PriceChart extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.width !== nextProps.width ||
+    let should = this.props.width !== nextProps.width ||
         this.props.coin.id !== nextProps.coin.id ||
         this.state.period !== nextState.period ||
         this.props.data.length !== nextProps.data.length ||
-        this.props.priceChartError !== nextProps.priceChartError;
+        this.props.priceChartError !== nextProps.priceChartError ||
+        (this.props.data.length > 0 && nextProps.data.length > 0 && this.props.data[0].date !== nextProps.data[0].data);
+
+    return should;
+  }
+
+  componentWillUnmount() {
+    console.log('unmount component');
   }
 
   render() {
@@ -53,8 +59,11 @@ class PriceChart extends React.Component {
 
     const xAccessor = (d) => {
 
-      return d ? new Date(d.date * 1000) : null
+      return d ? new Date(d.date * 1000) : new Date()
     };
+    if (!this.props.data || !this.props.data.length > 0) {
+      return (<h3 className="mt-5 text-center"><Loading/></h3>)
+    }
     const xExtents = [
       xAccessor(first(data)),
       xAccessor(last(data))
@@ -63,44 +72,44 @@ class PriceChart extends React.Component {
     const periods = [[300, '5m'], [900, '15m'], [1800, '30m'], [7200, '2h'], [14400, '4h'], [86400, '1d']];
     const periodLinks = periods.map((p) => {
       return p[0] === this.state.period ? (
-              <span className="mr-3"><strong>{p[1]}</strong></span>) : (
-              <a className="mr-3" href="#"
+              <span key={p[1]} className="mr-3"><strong>{p[1]}</strong></span>) : (
+              <a key={p[1]} className="mr-3" href="#"
                  onClick={() => this.changePeriod(p[0])}>{p[1]}</a>
           )
     });
-    return data.length === 0 ? <h3 className="mt-5 text-center"><Loading/></h3> : (
-            <div>
-              <div className="text-right">
-                {periodLinks}
-              </div>
-              <ChartCanvas width={width} height={400} ratio={ratio}
-                           panEvent={false}
-                           zoomEvent={false}
-                           margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
-                           seriesName="MSFT"
-                           data={data} type="svg"
-                           xAccessor={xAccessor}
-                           xScale={scaleTime()}
-                           xExtents={xExtents}>
-                <Chart id={0} yExtents={d => [d.close / 1.1, d.close]} yPan={true}>
-                  <XAxis axisAt="bottom" orient="bottom" ticks={10}/>
-                  <YAxis axisAt="left" orient="left"/>
-                  <LineSeries yAccessor={d => d.close}/>
-                  <MouseCoordinateX
-                      at="bottom"
-                      orient="bottom"
-                      displayFormat={timeFormat("%Y-%m-%d")}/>
-                  <MouseCoordinateY
-                      at="right"
-                      orient="right"
-                      displayFormat={format(".2f")}/>
+    return (
+        <div>
+          <div className="text-right">
+            {periodLinks}
+          </div>
+          <ChartCanvas width={width} height={400} ratio={ratio}
+                       panEvent={false}
+                       zoomEvent={false}
+                       margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
+                       seriesName="MSFT"
+                       data={data} type="svg"
+                       xAccessor={xAccessor}
+                       xScale={scaleTime()}
+                       xExtents={xExtents}>
+            <Chart id={0} yExtents={d => [d.close / 1.1, d.close]} yPan={true}>
+              <XAxis axisAt="bottom" orient="bottom" ticks={10}/>
+              <YAxis axisAt="left" orient="left"/>
+              <LineSeries yAccessor={d => d.close}/>
+              <MouseCoordinateX
+                  at="bottom"
+                  orient="bottom"
+                  displayFormat={timeFormat("%Y-%m-%d")}/>
+              <MouseCoordinateY
+                  at="right"
+                  orient="right"
+                  displayFormat={format(".2f")}/>
 
-                </Chart>
-                <CrossHairCursor />
+            </Chart>
+            <CrossHairCursor />
 
-              </ChartCanvas>
-            </div>
-        );
+          </ChartCanvas>
+        </div>
+    );
   }
 }
 

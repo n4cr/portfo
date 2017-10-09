@@ -6,8 +6,8 @@ import {Table} from 'reactstrap';
 
 export default (props) => {
 
-  const bidRows = !!props.data ? props.data.map(row => (
-              <tr>
+  const bidRows = !!props.data ? props.data.map((row, idx) => (
+              <tr key={idx}>
                 <td>{row[0]}</td>
                 <td>{row[1]}</td>
               </tr>

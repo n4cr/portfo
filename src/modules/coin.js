@@ -86,7 +86,7 @@ export const loadCoinList = (curr = '') => {
     if (!curr) {
       curr = getState().coin.currency;
     }
-    window.axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=15&convert=${curr}`).then((response) => {
+    window.axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=20&convert=${curr}`).then((response) => {
       dispatch({
         type: LOAD_COIN_LIST_SUCCESS,
         data: response.data

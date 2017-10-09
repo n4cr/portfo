@@ -73,32 +73,32 @@ class CoinPage extends React.Component {
           </Row>
           <Row className="mt-4">
             <Col>
-              <h6>
+              <h5>
                 Current Price<br/>
                 <small className="text-muted">{formatMoney(currency, price)}</small>
-              </h6>
+              </h5>
             </Col>
             <Col>
-              <h6>
+              <h5>
                 Market Cap<br/>
                 <small className="text-muted">{market_cap} {currency}</small>
-              </h6>
+              </h5>
             </Col>
             <Col>
-              <h6>
+              <h5>
                 24 Hour Volume<br/>
                 <small className="text-muted">{volume} {currency}</small>
-              </h6>
+              </h5>
             </Col>
             <Col>
               <div>
-                <small>1H {change_1h}%</small>
+                1H {change_1h}%
               </div>
               <div>
-                <small>24H {change_24h}%</small>
+                24H {change_24h}%
               </div>
               <div>
-                <small>7D {change_7d}%</small>
+                7D {change_7d}%
               </div>
             </Col>
           </Row>

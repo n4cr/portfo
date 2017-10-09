@@ -40,7 +40,9 @@ export const currencySymbols = {
 }
 
 export const formatMoney = (currency, value, format = '0,0[.]00') => {
-  const symb = currencySymbols[currency];
-  const v = numeral(value).format(format);
+  const symb = currencySymbols[currency] || '';
+
+  const formatFinal = currency === "BTC" ? '0,0[.]000000': format;
+  const v = numeral(value).format(formatFinal);
   return `${symb}${v}`;
 }

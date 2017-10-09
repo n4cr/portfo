@@ -6,10 +6,15 @@ import CurrencySelector from '../components/CurrencySelector';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {changeCurrency, loadCoinList} from '../modules/coin';
-import {holdingsList, portfolioValue, signinSuccess, loadHoldings} from '../modules/account';
+import {
+  holdingsList,
+  portfolioValue,
+  porfolioValueChange,
+  signinSuccess,
+  loadHoldings
+} from '../modules/account';
 import numeral from 'numeral';
 import {formatMoney} from '../utils';
-import {currencySymbols} from '../utils';
 
 class HomePage extends React.Component {
   static PropTypes = {}
@@ -26,30 +31,41 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const portfolioValue = numeral(this.props.portfolioValue).format('0,0[.]00');
-
     const signInButton = (
-        <Container>
-          <div className="mt-4">
-            <p>To manage your portfolio please <a onClick={this.signin} href="#">log in to Blockstack</a></p>
-          </div>
-        </Container>
+        <div className="mt-4">
+          <p>To manage your portfolio please <a onClick={this.signin} href="#">log in to
+            Blockstack</a></p>
+        </div>
     )
 
+    const portfoChange = (
+        <span className={this.props.porfolioValueChange > 0 ? 'text-success' : 'text-danger'}>
+          {formatMoney(this.props.currency, this.props.porfolioValueChange)}
+          {this.props.porfolioValueChange > 0 ? '↑' : '↓'}
+        </span>);
     const portfoValue = (
         <h3>{formatMoney(this.props.currency, this.props.portfolioValue)}<br/>
           <small className="text-muted">Holdings</small>
         </h3>
     )
 
+    const portfoChangeEl = this.props.user ?  (
+        <h3>
+          {portfoChange}<br/>
+          <small className="text-muted">24h Change</small>
+        </h3>
+    ): null;
     const header = !!this.props.user ? portfoValue : signInButton
     return (
         <Container>
           <Row className="mt-5 mb-5">
-            <Col xs="8" sm="10">
+            <Col xs="5" sm="5">
               {header}
             </Col>
-            <Col xs="4" sm="2">
+            <Col xs="5" sm="5">
+              {portfoChangeEl}
+            </Col>
+            <Col xs="2" sm="2">
               <CurrencySelector currency={this.props.currency}
                                 onChange={this.onCurrencyChange.bind(this)}/>
             </Col>
@@ -74,6 +90,7 @@ const mapStateToProps = state => ({
   holdingsList: holdingsList(state),
   holdings: state.account.holdings,
   portfolioValue: portfolioValue(state),
+  porfolioValueChange: porfolioValueChange(state),
   currency: state.coin.currency,
   user: state.account.user,
 })

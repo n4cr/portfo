@@ -23,7 +23,7 @@ export default class CoinList extends React.Component {
             <th>Price</th>
             <th>Market Cap</th>
             <th>24hr Change (%)</th>
-            <th>Holdings</th>
+            <th>Holdings<br/>24h Change</th>
           </tr>
           </thead>
           <tbody>

@@ -13,7 +13,9 @@ export const STORAGE_FILE = 'portfo.json'
 
 const initialState = {
   user: null,
-  holding: {}
+  holdings: {},
+  holdingsList: [],
+  portfolioValue: 0
 }
 
 export default (state = initialState, action) => {
@@ -31,7 +33,7 @@ export default (state = initialState, action) => {
     case LOAD_HOLDINGS:
       return {
         ...state,
-        holdings: action.holdings
+        holdings: action.holdings,
       }
     case UPDATE_HOLDING:
       return {
@@ -67,10 +69,10 @@ export const loadHoldings = () => {
   return (dispatch, getState) => {
     const blockstack = window.blockstack;
     blockstack.getFile(STORAGE_FILE).then((holdings) => {
-      const data = JSON.parse(holdings || '{}')
+      const data = JSON.parse(holdings || '{}');
       dispatch({
         type: LOAD_HOLDINGS,
-        holdings: data
+        holdings: data,
       })
     })
 
@@ -79,16 +81,17 @@ export const loadHoldings = () => {
 
 
 export const updateHoldings = (coin, amount) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     const blockstack = window.blockstack;
     // Load holdings, update and replace all of it with the new map
     blockstack.getFile(STORAGE_FILE).then((holdings) => {
-      const data = JSON.parse(holdings || '{}')
-      data[coin] = amount
+      const data = JSON.parse(holdings || '{}');
+      data[coin] = amount;
       blockstack.putFile(STORAGE_FILE, JSON.stringify(data))
+
       dispatch({
         type: UPDATE_HOLDING,
-        holdings: data
+        holdings: data,
       })
 
     });
@@ -111,6 +114,21 @@ export const portfolioValue = (state) => {
     return total + numeral(holdings[coin.id]).value() * numeral(coin['price_' + currency]).value();
   }, 0);
 };
+
+export const porfolioValueChange = (state) => {
+  const list = holdingsList(state);
+  const holdings = state.account.holdings;
+  const currency = state.coin.currency.toLowerCase();
+
+  return list.reduce((total, coin) => {
+    const price = numeral(coin['price_' + currency]).value()
+    const perc_change = numeral(coin['percent_change_24h']).value() / 100;
+    const holding = numeral(holdings[coin.id]).value()
+
+    const change = price * perc_change * holding;
+    return total + change;
+  }, 0)
+}
 
 export const derived_holdings = (state) => {
   // this method creates the

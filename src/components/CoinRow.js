@@ -29,6 +29,12 @@ export default class CoinRow extends React.Component {
     const valueElem = value_in_currency > 0 ? (
             <span>{formatMoney(currency, value_in_currency)}</span>) : null;
 
+    const change_24h = holdings > 0 ? (
+            <span>
+          {formatMoney('', coin.percent_change_24h / 100 * holdings * price)}
+              {+coin.percent_change_24h > 0 ? '⬆' : '⬇'}
+        </span>
+        ) : null;
     return (
         <tr >
           <td>{icon}</td>
@@ -38,8 +44,10 @@ export default class CoinRow extends React.Component {
           <td className={changeColor}>{coinPerc}%</td>
           <td>
             <strong>{holdingElem}</strong><br/>
-            {valueElem}
+            {valueElem}<br/>
+            <span className={changeColor}>{change_24h}</span>
           </td>
+
         </tr>
     )
   }

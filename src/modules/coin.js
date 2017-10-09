@@ -81,8 +81,11 @@ export default (state = initialState, action) => {
 }
 
 export const loadCoinList = (curr = '') => {
-  return dispatch => {
+  return (dispatch, getState) => {
     // now load coins and then dispatch
+    if (!curr) {
+      curr = getState().coin.currency;
+    }
     window.axios.get(`https://api.coinmarketcap.com/v1/ticker/?limit=15&convert=${curr}`).then((response) => {
       dispatch({
         type: LOAD_COIN_LIST_SUCCESS,
@@ -104,7 +107,6 @@ export const loadCoin = (id, curr = '') => {
         selected: coin
       });
 
-      dispatch(clearChart());
       dispatch(loadCoinChartData(coin.symbol, 14400));
       dispatch(loadOrderBook(coin.symbol));
 

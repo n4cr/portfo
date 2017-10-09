@@ -35,9 +35,9 @@ class CoinPage extends React.Component {
     const value_in_currency = !!amount ? amount * price : 0;
     const market_cap = numeral(coin['market_cap_' + currency.toLowerCase()]).format('0.0a');
     const volume = numeral(coin['24h_volume_' + currency.toLowerCase()]).format('0.0a');
-    const change_1h = coin['percent_change_1h'];
-    const change_24h = coin['percent_change_24h'];
-    const change_7d = coin['percent_change_7d'];
+    const change_1h = numeral(coin['percent_change_1h']).value();
+    const change_24h = numeral(coin['percent_change_24h']).value();
+    const change_7d = numeral(coin['percent_change_7d']).value();
 
 
     return (
@@ -91,13 +91,13 @@ class CoinPage extends React.Component {
               </h5>
             </Col>
             <Col>
-              <div>
+              <div className={change_1h < 0 ? "text-danger" : "text-success"}>
                 1H {change_1h}%
               </div>
-              <div>
+              <div className={change_24h < 0 ? "text-danger" : "text-success"}>
                 24H {change_24h}%
               </div>
-              <div>
+              <div className={change_7d < 0 ? "text-danger" : "text-success"}>
                 7D {change_7d}%
               </div>
             </Col>

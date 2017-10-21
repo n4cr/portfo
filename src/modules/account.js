@@ -9,7 +9,7 @@ export const SIGNOUT = 'account/SIGNOUT';
 export const LOAD_HOLDINGS = 'account/LOAD_HOLDINGS';
 export const UPDATE_HOLDING = 'account/UPDATE_HOLDING'
 
-export const STORAGE_FILE = 'portfolio0.json';
+export const STORAGE_FILE = 'portfolio.json';
 
 const initialState = {
   user: null,

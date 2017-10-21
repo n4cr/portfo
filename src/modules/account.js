@@ -9,7 +9,7 @@ export const SIGNOUT = 'account/SIGNOUT';
 export const LOAD_HOLDINGS = 'account/LOAD_HOLDINGS';
 export const UPDATE_HOLDING = 'account/UPDATE_HOLDING'
 
-export const STORAGE_FILE = 'portfo.json'
+export const STORAGE_FILE = 'portfolio0.json';
 
 const initialState = {
   user: null,
@@ -68,13 +68,18 @@ export const signout = () => {
 export const loadHoldings = () => {
   return (dispatch, getState) => {
     const blockstack = window.blockstack;
-    blockstack.getFile(STORAGE_FILE).then((holdings) => {
+    blockstack.getFile(STORAGE_FILE, true).then((holdings) => {
       const data = JSON.parse(holdings || '{}');
       dispatch({
         type: LOAD_HOLDINGS,
         holdings: data,
       })
-    })
+    }).catch((err)=> {
+      console.log('error happened');
+      console.log(err);
+      console.log('put file...');
+      blockstack.putFile(STORAGE_FILE, JSON.stringify({}), true);
+    });
 
   }
 };
@@ -84,16 +89,23 @@ export const updateHoldings = (coin, amount) => {
   return (dispatch, getState) => {
     const blockstack = window.blockstack;
     // Load holdings, update and replace all of it with the new map
-    blockstack.getFile(STORAGE_FILE).then((holdings) => {
+    blockstack.getFile(STORAGE_FILE, true).then((holdings) => {
       const data = JSON.parse(holdings || '{}');
       data[coin] = amount;
-      blockstack.putFile(STORAGE_FILE, JSON.stringify(data))
+      console.log('putting file....');
+      blockstack.putFile(STORAGE_FILE, JSON.stringify(data), true);
+      console.log('File created.');
 
       dispatch({
         type: UPDATE_HOLDING,
         holdings: data,
       })
 
+    }).catch((err)=> {
+      console.log('error happened');
+      console.log(err);
+      console.log('put file...');
+      blockstack.putFile(STORAGE_FILE, JSON.stringify({}), true);
     });
   }
 };

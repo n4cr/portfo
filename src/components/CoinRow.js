@@ -35,17 +35,22 @@ export default class CoinRow extends React.Component {
               {+coin.percent_change_24h > 0 ? '⬆' : '⬇'}
         </span>
         ) : null;
+    console.log(coin);
+    const volume = coin[`24h_volume_${currLow}`];
+
     return (
         <tr >
           <td>{icon}</td>
-          <td><Link to={`/coin/${coin.id}`}><h4>{coin.symbol}</h4></Link></td>
+          <td><Link to={`/coin/${coin.id}`}>
+            <h6>{coin.name}<br/>
+              <small className="text-muted">{coin.symbol}</small>
+            </h6>
+          </Link></td>
           <td>{formatted_price}</td>
           <td>{marketCap}</td>
           <td className={changeColor}>{coinPerc}%</td>
+          <td>{volume}</td>
           <td>
-            <strong>{holdingElem}</strong><br/>
-            {valueElem}<br/>
-            <span className={changeColor}>{change_24h}</span>
           </td>
 
         </tr>

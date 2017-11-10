@@ -39,7 +39,8 @@ class CoinPage extends React.Component {
     const change_24h = numeral(coin['percent_change_24h']).value();
     const change_7d = numeral(coin['percent_change_7d']).value();
 
-
+    const icon = (
+        <img className="mr-2" src={`https://files.coinmarketcap.com/static/img/coins/32x32/${coin.id}.png`}/>)
     return (
         <Container>
           <Row className="mt-3">
@@ -50,7 +51,9 @@ class CoinPage extends React.Component {
           <Row className="mt-3 mb-3">
             <Col>
 
-              <h2>{coin.name}</h2>
+              <h2>
+                {icon}{coin.name}
+                </h2>
             </Col>
           </Row>
           <Row>
@@ -112,6 +115,7 @@ class CoinPage extends React.Component {
                   orderBookData={this.props.orderBookData}
                   loadOrderBook={this.props.loadOrderBook}
                   priceChartError={this.props.priceChartError}
+                  currency={this.props.currency}
               />
             </Col>
           </Row>

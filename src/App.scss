@@ -5,14 +5,14 @@
 
 @import "./assets/variables";
 
-$font-family-monospace: 'Courier',monospace !default;
+//$font-family-monospace: 'Courier',monospace !default;
 //$font-family-monospace: 'Source Code Pro',monospace !default;
-$font-family-base: $font-family-monospace !default;
+//$font-family-base: $font-family-monospace !default;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .App {
-  font-family: $font-family-base;
+  //font-family: $font-family-base;
 }
 
 .App-logo {

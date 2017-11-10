@@ -139,7 +139,7 @@ export const loadCoinChartData = (coin, period) => {
     const now = new Date().getTime()
     //400 data points
     const start = (now - 400 * period * 1000) / 1000;
-    // TODO: adjust the
+    // TOD: adjust the
     window.axios.get(`https://poloniex.com/public?command=returnChartData&currencyPair=${pair}&start=${start}&end=9999999999&period=${period}`).then((response) => {
       if (response.data.error) {
         // TODO: Handle the error in a better way

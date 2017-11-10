@@ -13,7 +13,7 @@ export default class CoinRow extends React.Component {
     const currLow = currency.toLowerCase();
     const price = coin[`price_${currLow}`];
     const formatted_price = formatMoney(currency, price);
-    const marketCap = formatMoney(currency, coin[`market_cap_${currLow}`], '0.0a');
+    const marketCap = formatMoney(currency, coin[`market_cap_${currLow}`]);
 
 
     const changeColor = +coin.percent_change_24h > 0 ? "text-success" : "text-danger";
@@ -36,7 +36,7 @@ export default class CoinRow extends React.Component {
         </span>
         ) : null;
     console.log(coin);
-    const volume = coin[`24h_volume_${currLow}`];
+    const volume = formatMoney(currency, coin[`24h_volume_${currLow}`]);
 
     return (
         <tr >
@@ -52,6 +52,7 @@ export default class CoinRow extends React.Component {
           <td>{volume}</td>
           <td>
           </td>
+          <td><i className="fa fa-eye-slash"/> </td>
 
         </tr>
     )

@@ -18,12 +18,14 @@ export default class CoinList extends React.Component {
         <Table striped size="sm">
           <thead>
           <tr>
-            <th></th>
             <th>Coin</th>
+            <th></th>
             <th>Price</th>
             <th>Market Cap</th>
             <th>24hr Change (%)</th>
             <th>Volume</th>
+            <th>Supply</th>
+            <th>Watch</th>
           </tr>
           </thead>
           <tbody>

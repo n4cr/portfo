@@ -1,15 +1,21 @@
 // import my variables
-
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,500,600,700");
-
 @import "./assets/variables";
-
 //$font-family-monospace: 'Courier',monospace !default;
 //$font-family-monospace: 'Source Code Pro',monospace !default;
 //$font-family-base: $font-family-monospace !default;
-
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+
+//@import "../node_modules/font-awesome/scss/font-awesome";
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import "../node_modules/font-awesome/scss/font-awesome";
+
+
+body {
+  background-color: #f7f7f7;
+}
 
 .App {
   //font-family: $font-family-base;
@@ -36,6 +42,14 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.table th {
+  border-top: none;
 }

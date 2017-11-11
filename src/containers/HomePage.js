@@ -57,9 +57,10 @@ class HomePage extends React.Component {
             </h3>
         ) : null;
     const header = !!this.props.user ? portfoValue : signInButton
+    const changeEl= !!this.props.user ? portfoChangeEl: signInButton
     return (
         <Container>
-          <Row className="mt-5 mb-5">
+          <Row className="mt-5 mb-3">
 
             <Col xs="3" sm="3">
               <div className="card">
@@ -71,11 +72,11 @@ class HomePage extends React.Component {
             <Col xs="3" sm="3">
               <div className="card">
                 <div className="card-block">
-                  {portfoChangeEl}
+                  {changeEl}
                 </div>
               </div>
             </Col>
-            <Col xs="2" sm="2">
+            <Col xs="2" sm="2" className="offset-md-4">
               <CurrencySelector currency={this.props.currency}
                                 onChange={this.onCurrencyChange.bind(this)}/>
             </Col>
@@ -86,7 +87,7 @@ class HomePage extends React.Component {
             </Col>
           </Row>
           <Row className="mb-3 text-center">
-            <Col xs="6" md="3">
+            <Col xs="6" md="4">
               <div className="card">
                 <div className="card-block">
                   <h4>Total Market Cap</h4>
@@ -94,7 +95,7 @@ class HomePage extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col xs="6" md="3">
+            <Col xs="6" md="4">
               <div className="card">
                 <div className="card-block">
                   <h4>24h Volume</h4>
@@ -102,7 +103,7 @@ class HomePage extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col xs="6" md="3">
+            <Col xs="6" md="4">
               <div className="card">
                 <div className="card-block">
                   <h4>Bitcoin Dominance</h4>
@@ -110,14 +111,14 @@ class HomePage extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col xs="6" md="3">
-              <div className="card">
-                <div className="card-block">
-                  <h4>Something else</h4>
-                  <div>great!</div>
-                </div>
-              </div>
-            </Col>
+            {/*<Col xs="6" md="3">*/}
+              {/*<div className="card">*/}
+                {/*<div className="card-block">*/}
+                  {/*<h4>Something else</h4>*/}
+                  {/*<div>great!</div>*/}
+                {/*</div>*/}
+              {/*</div>*/}
+            {/*</Col>*/}
           </Row>
           <Row>
             <Col>

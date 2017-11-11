@@ -50,9 +50,9 @@ export default class CoinRow extends React.Component {
           <td>{marketCap}</td>
           <td className={changeColor}>{coinPerc}%</td>
           <td>{volume}</td>
-          <td>
-          </td>
-          <td><i className="fa fa-eye-slash"/> </td>
+          {/*<td>*/}
+          {/*</td>*/}
+          {/*<td><i className="fa fa-eye-slash"/> </td>*/}
 
         </tr>
     )

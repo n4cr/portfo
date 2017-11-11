@@ -68,8 +68,12 @@ class HomePage extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col xs="3" sm="5">
-              {portfoChangeEl}
+            <Col xs="3" sm="3">
+              <div className="card">
+                <div className="card-block">
+                  {portfoChangeEl}
+                </div>
+              </div>
             </Col>
             <Col xs="2" sm="2">
               <CurrencySelector currency={this.props.currency}
@@ -119,10 +123,14 @@ class HomePage extends React.Component {
             <Col>
               <div className="card">
                 <div className="card-block">
-                  <CoinList
-                      holdings={this.props.holdings}
+
+                  <Tabs
+                      user={this.props.user}
                       currency={this.props.currency}
-                      list={this.props.list}/>
+                      list={this.props.list}
+                      holdingsList={this.props.holdingsList}
+                      holdings={this.props.holdings}
+                      signin={this.signin}/>
                 </div>
               </div>
 

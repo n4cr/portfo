@@ -40,7 +40,8 @@ class CoinPage extends React.Component {
     const change_7d = numeral(coin['percent_change_7d']).value();
 
     const icon = (
-        <img className="mr-2" src={`https://files.coinmarketcap.com/static/img/coins/32x32/${coin.id}.png`}/>)
+        <img className="mr-2"
+             src={`https://files.coinmarketcap.com/static/img/coins/32x32/${coin.id}.png`}/>)
     return (
         <Container>
           <Row className="mt-3">
@@ -53,71 +54,100 @@ class CoinPage extends React.Component {
 
               <h2>
                 {icon}{coin.name}
-                </h2>
+              </h2>
             </Col>
           </Row>
           <Row>
             <Col xs="6" sm="8" md="4">
-              <CoinHoldingBox
-                  coin={coin}
-                  value={amount}
-                  holdingInput={this.props.holdingInput}
-                  updateHoldingInput={this.props.updateHoldingInput}
-                  onSave={this.props.updateHoldings}
-                  user={this.props.user}
-                  signin={this.signin}
-              />
+              <div className="card">
+                <div className="card-block">
+                  <CoinHoldingBox
+                      coin={coin}
+                      value={amount}
+                      holdingInput={this.props.holdingInput}
+                      updateHoldingInput={this.props.updateHoldingInput}
+                      onSave={this.props.updateHoldings}
+                      user={this.props.user}
+                      signin={this.signin}
+                  />
+                </div>
+              </div>
             </Col>
             <Col>
-              <h4>{formatMoney(currency, value_in_currency)}
-                <small className="text-muted"><br/>Holdings Value</small>
-              </h4>
+              <div className="card">
+                <div className="card-block">
+                  <h4>{formatMoney(currency, value_in_currency)}
+                    <small className="text-muted"><br/>Holdings Value</small>
+                  </h4>
+                </div>
+              </div>
             </Col>
           </Row>
           <Row className="mt-4">
             <Col>
-              <h5>
-                Current Price<br/>
-                <small className="text-muted">{formatMoney(currency, price)}</small>
-              </h5>
-            </Col>
-            <Col>
-              <h5>
-                Market Cap<br/>
-                <small className="text-muted">{market_cap} {currency}</small>
-              </h5>
-            </Col>
-            <Col>
-              <h5>
-                24 Hour Volume<br/>
-                <small className="text-muted">{volume} {currency}</small>
-              </h5>
-            </Col>
-            <Col>
-              <div className={change_1h < 0 ? "text-danger" : "text-success"}>
-                1H {change_1h}%
+              <div className="card">
+                <div className="card-block">
+                  <h5>
+                    Current Price<br/>
+                    <small className="text-muted">{formatMoney(currency, price)}</small>
+                  </h5>
+                </div>
               </div>
-              <div className={change_24h < 0 ? "text-danger" : "text-success"}>
-                24H {change_24h}%
+            </Col>
+            <Col>
+              <div className="card">
+                <div className="card-block">
+                  <h5>
+                    Market Cap<br/>
+                    <small className="text-muted">{market_cap} {currency}</small>
+                  </h5>
+                </div>
               </div>
-              <div className={change_7d < 0 ? "text-danger" : "text-success"}>
-                7D {change_7d}%
+            </Col>
+            <Col>
+              <div className="card">
+                <div className="card-block">
+                  <h5>
+                    24 Hour Volume<br/>
+                    <small className="text-muted">{volume} {currency}</small>
+                  </h5>
+                </div>
+              </div>
+            </Col>
+            <Col>
+              <div className="card">
+                <div className="card-block">
+                  <div className={change_1h < 0 ? "text-danger" : "text-success"}>
+                    1H {change_1h}%
+                  </div>
+                  <div className={change_24h < 0 ? "text-danger" : "text-success"}>
+                    24H {change_24h}%
+                  </div>
+                  <div className={change_7d < 0 ? "text-danger" : "text-success"}>
+                    7D {change_7d}%
+                  </div>
+                </div>
               </div>
             </Col>
           </Row>
-          <Row>
+          <Row className="mt-3">
             <Col>
-              <CoinPageTabs
-                  coinChartData={this.props.coinChartData}
-                  coin={this.props.coin}
-                  loadCoinChartData={this.props.loadCoinChartData}
-                  clearChart={this.props.clearChart}
-                  orderBookData={this.props.orderBookData}
-                  loadOrderBook={this.props.loadOrderBook}
-                  priceChartError={this.props.priceChartError}
-                  currency={this.props.currency}
-              />
+              <div className="card">
+                <div className="card-block">
+                  <CoinPageTabs
+                      coinChartData={this.props.coinChartData}
+                      coin={this.props.coin}
+                      loadCoinChartData={this.props.loadCoinChartData}
+                      clearChart={this.props.clearChart}
+                      orderBookData={this.props.orderBookData}
+                      loadOrderBook={this.props.loadOrderBook}
+                      priceChartError={this.props.priceChartError}
+                      currency={this.props.currency}
+                  />
+                </div>
+              </div>
             </Col>
+
           </Row>
         </Container>
     )

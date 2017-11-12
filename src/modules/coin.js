@@ -11,6 +11,7 @@ export const CHANGE_CURRENCY = 'coin/CHANGE_CURRENCY';
 export const LOAD_COIN_CHART_DATA_SUCCESS = 'coin/LOAD_COIN_CHART_DATA_SUCCESS';
 export const LOAD_ORDER_BOOK_SUCCESS = 'coin/LOAD_ORDER_BOOK_SUCCESS';
 export const CHART_DATA_ERROR = 'coin/CHART_DATA_ERROR';
+export const LOAD_GLOBAL_DATA = 'coin/LOAD_GLOBAL_DATA';
 
 // Constants
 export const PRICE_CHART_ERROR_DATA_NA = 'data_na';
@@ -39,7 +40,10 @@ const initialState = {
   selected: {},
   currency: 'EUR',
   pair: '',
-  priceChartError: null // the key to the object PRICE_CHART_ERRORS
+  priceChartError: null, // the key to the object PRICE_CHART_ERRORS
+  totalCap: 0,
+  totalVol24h: 0,
+  btcDominance: '0%',
 }
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -75,6 +79,17 @@ export default (state = initialState, action) => {
         ...state,
         priceChartError: action.key
       };
+    case LOAD_GLOBAL_DATA:
+      const st = {
+        ...state,
+
+        totalCap: action.data[`total_market_cap_${state.currency.toLowerCase()}`],
+        totalVol24h: action.data[`total_24h_volume_${state.currency.toLowerCase()}`],
+        btcDominance: `${action.data['bitcoin_percentage_of_market_cap']}%`,
+      };
+      console.log('st');
+      console.log(st);
+      return st
     default:
       return state
   }
@@ -94,8 +109,21 @@ export const loadCoinList = (curr = '') => {
     }).catch(function (error) {
       console.log(error);
     });
+
+    dispatch(loadGlobalMarketData(curr))
   }
 };
+
+export const loadGlobalMarketData = (currency = 'USD') => {
+  return dispatch => {
+    window.axios.get(`https://api.coinmarketcap.com/v1/global/?convert=${currency}`).then((response) => {
+      dispatch({
+        type: LOAD_GLOBAL_DATA,
+        data: response.data,
+      })
+    });
+  }
+}
 
 export const loadCoin = (id, curr = '') => {
   return dispatch => {

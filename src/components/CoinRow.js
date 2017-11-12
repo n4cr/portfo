@@ -35,7 +35,6 @@ export default class CoinRow extends React.Component {
               {+coin.percent_change_24h > 0 ? '⬆' : '⬇'}
         </span>
         ) : null;
-    console.log(coin);
     const volume = formatMoney(currency, coin[`24h_volume_${currLow}`]);
 
     return (

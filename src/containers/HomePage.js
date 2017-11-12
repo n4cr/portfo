@@ -91,7 +91,7 @@ class HomePage extends React.Component {
               <div className="card">
                 <div className="card-block">
                   <h4>Total Market Cap</h4>
-                  <div>$199,602,825,394</div>
+                  <div>{formatMoney(this.props.currency, this.props.totalCap)}</div>
                 </div>
               </div>
             </Col>
@@ -99,7 +99,7 @@ class HomePage extends React.Component {
               <div className="card">
                 <div className="card-block">
                   <h4>24h Volume</h4>
-                  <div>$199,602,825,394</div>
+                  <div>{formatMoney(this.props.currency, this.props.totalVol24h)}</div>
                 </div>
               </div>
             </Col>
@@ -107,7 +107,7 @@ class HomePage extends React.Component {
               <div className="card">
                 <div className="card-block">
                   <h4>Bitcoin Dominance</h4>
-                  <div>20%</div>
+                  <div>{this.props.btcDominance}</div>
                 </div>
               </div>
             </Col>
@@ -145,6 +145,9 @@ class HomePage extends React.Component {
 
 const mapStateToProps = state => ({
   list: state.coin.list,
+  totalCap: state.coin.totalCap,
+  totalVol24h: state.coin.totalVol24h,
+  btcDominance: state.coin.btcDominance,
   holdingsList: holdingsList(state),
   holdings: state.account.holdings,
   portfolioValue: portfolioValue(state),

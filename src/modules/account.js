@@ -74,7 +74,7 @@ export const loadHoldings = () => {
         type: LOAD_HOLDINGS,
         holdings: data,
       })
-    }).catch((err)=> {
+    }).catch((err) => {
       console.log('error happened');
       console.log(err);
       console.log('put file...');
@@ -101,7 +101,7 @@ export const updateHoldings = (coin, amount) => {
         holdings: data,
       })
 
-    }).catch((err)=> {
+    }).catch((err) => {
       console.log('error happened');
       console.log(err);
       console.log('put file...');
@@ -127,14 +127,15 @@ export const portfolioValue = (state) => {
   }, 0);
 };
 
-export const porfolioValueChange = (state) => {
+export const porfolioValueChange = (state, interval = '24h') => {
+  // interval is 1h, 24h, 7d
   const list = holdingsList(state);
   const holdings = state.account.holdings;
   const currency = state.coin.currency.toLowerCase();
 
   return list.reduce((total, coin) => {
     const price = numeral(coin['price_' + currency]).value()
-    const perc_change = numeral(coin['percent_change_24h']).value() / 100;
+    const perc_change = numeral(coin[`percent_change_${interval}`]).value() / 100;
     const holding = numeral(holdings[coin.id]).value()
 
     const change = price * perc_change * holding;

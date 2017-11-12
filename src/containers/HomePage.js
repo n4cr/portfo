@@ -16,14 +16,14 @@ import numeral from 'numeral';
 import {formatMoney} from '../utils';
 import CoinList from '../components/CoinList'
 import HomePageHeader from '../components/HomePageHeader'
+import CurrencySelector from '../components/CurrencySelector';
 
 class HomePage extends React.Component {
   static PropTypes = {}
 
-
-  signin() {
-    const blockstack = window.blockstack
-    blockstack.redirectToSignIn()
+  onCurrencyChange(currency) {
+    this.props.changeCurrency(currency);
+    this.props.loadCoinList(currency);
   }
 
 
@@ -32,13 +32,19 @@ class HomePage extends React.Component {
 
     return (
         <Container>
+          <Row className="mt-2">
+            <Col xs="2" sm="2" className="offset-md-10">
+              <CurrencySelector currency={this.props.currency}
+                                onChange={this.onCurrencyChange.bind(this)}/>
+            </Col>
+          </Row>
           <HomePageHeader
               currency={this.props.currency}
-              porfolioValueChange={this.props.porfolioValueChange}
+              porfolioValueChange1h={this.props.porfolioValueChange1h}
+              porfolioValueChange24h={this.props.porfolioValueChange24h}
+              porfolioValueChange7d={this.props.porfolioValueChange7d}
               portfolioValue={this.props.portfolioValue}
               user={this.props.user}
-              changeCurrency={this.props.changeCurrency}
-              loadCoinList={this.props.loadCoinList}
           />
           <Row>
             <Col>
@@ -70,14 +76,6 @@ class HomePage extends React.Component {
                 </div>
               </div>
             </Col>
-            {/*<Col xs="6" md="3">*/}
-              {/*<div className="card">*/}
-                {/*<div className="card-block">*/}
-                  {/*<h4>Something else</h4>*/}
-                  {/*<div>great!</div>*/}
-                {/*</div>*/}
-              {/*</div>*/}
-            {/*</Col>*/}
           </Row>
           <Row>
             <Col>
@@ -110,7 +108,9 @@ const mapStateToProps = state => ({
   holdingsList: holdingsList(state),
   holdings: state.account.holdings,
   portfolioValue: portfolioValue(state),
-  porfolioValueChange: porfolioValueChange(state),
+  porfolioValueChange1h: porfolioValueChange(state, '1h'),
+  porfolioValueChange24h: porfolioValueChange(state, '24h'),
+  porfolioValueChange7d: porfolioValueChange(state, '7d'),
   currency: state.coin.currency,
   user: state.account.user,
 })
